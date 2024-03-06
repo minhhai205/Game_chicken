@@ -4,6 +4,7 @@
 #include "Timer.h"
 #include "ChickenObject.h"
 #include "EggObject.h"
+#include "ExplosionObject.h"
 
 BaseObject g_background;
 
@@ -82,7 +83,7 @@ std::vector<ChickenObject*> MakeChickenList() {
 
             p_chicken->SetEgg(g_screen);
 
-            p_chicken->set_chicken_x_val(1.5);
+            p_chicken->set_chicken_x_val(2);
             p_chicken->set_chicken_move(true);
             list_chickens.push_back(p_chicken);
         }
@@ -111,6 +112,15 @@ int main(int argc, char* argv[]) {
 
     //Load chicken
    std::vector<ChickenObject*> chickens_list = MakeChickenList();
+
+
+   // tạo hình ảnh vụ nổ
+   ExplosionObject exp_threat;
+   bool tRet = exp_threat.LoadImg("images/exp_main.png", g_screen);
+   if (!tRet) {
+       return -1;
+   }
+   exp_threat.set_clip();
 
 
     // Vòng lặp chính của game
@@ -149,6 +159,27 @@ int main(int argc, char* argv[]) {
                     p_chicken->HandelChickenMove(SCREEN_WIDTH, SCREEN_HEIGHT);
                     p_chicken->Render(g_screen);
                     p_chicken->HandelEgg(g_screen);
+
+                    //check va chạm giữa tên lửa với vật cản
+                    SDL_Rect rect_player = p_player.GetRectFrame();
+                    bool bCol1 = false;
+                    EggObject* tEgg = p_chicken->get_egg();
+                    if (tEgg) {
+                        bCol1 = SDLCommonFunc::CheckCollision(tEgg->GetRect(), rect_player);
+                    }
+
+                    SDL_Rect rect_chicken = p_chicken->GetRectFrame();
+                    bool bCol2 = SDLCommonFunc::CheckCollision(rect_player, rect_chicken);
+
+                    if (bCol1 || bCol2) {
+                        if (MessageBox(NULL, L"GAVEOVER", L"Info", MB_OK | MB_ICONSTOP) == IDOK) {
+                            p_chicken->Free();
+                            close();
+                            SDL_Quit();
+                            return 0;
+                        }
+                    }
+
                 }
                 else {
                     chickens_list.erase(chickens_list.begin() + i);
@@ -161,6 +192,8 @@ int main(int argc, char* argv[]) {
         }
        
        
+        int frame_exp_width = exp_threat.get_frame_width();
+        int frame_exp_height = exp_threat.get_frame_height();
         // xử lí va chạm cho game
         std::vector<BulletObject*> bullet_arr = p_player.get_bullet_list();
         for (int r = 0; r < bullet_arr.size(); r++) {
@@ -180,6 +213,16 @@ int main(int argc, char* argv[]) {
                         bool bCol = SDLCommonFunc::CheckCollision(bRect, tRect);
 
                         if (bCol) {
+                            for (int ex = 0; ex < NUM_FRAME_EXP; ex++) {
+                                int x_pos = p_bullet->GetRect().x - frame_exp_width * 0.5;
+                                int y_pos = p_bullet->GetRect().y - frame_exp_height * 0.5;
+
+                                exp_threat.set_frame(ex);
+                                exp_threat.SetRect(x_pos, y_pos);
+                                exp_threat.Show(g_screen);
+                            }
+
+
                             p_player.RemoveBullet(r);
                             obj_chicken->Free();
                             chickens_list.erase(chickens_list.begin() + t);

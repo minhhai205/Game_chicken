@@ -10,8 +10,8 @@
 
 class RocketObject : public BaseObject {
 public:
-    RocketObject(); // Constructor mặc định
-    ~RocketObject(); // Destructor mặc định
+    RocketObject(); 
+    ~RocketObject(); 
 
     // Hàm load ảnh đối tượng chính từ đường dẫn và renderer
     virtual bool LoadImg(std::string path, SDL_Renderer* screen);
@@ -25,6 +25,11 @@ public:
     // Hàm xử lí đạn bắn
     void HandelBullet(SDL_Renderer* screen);
    
+
+    // hàm lấy frame tên lửa
+    SDL_Rect GetRectFrame();
+
+
     void set_bullet_list(std::vector<BulletObject*> bullet_list) {
         p_bullet_list_ = bullet_list;
     }

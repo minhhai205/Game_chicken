@@ -1,8 +1,7 @@
 ﻿#include "RocketObject.h"
 
 RocketObject::RocketObject() {
-    // Khởi tạo các biến thành viên và thiết lập giá trị mặc định
-    
+    //
     x_pos_ = 0;
     y_pos_ = 0;
 
@@ -19,12 +18,23 @@ bool RocketObject::LoadImg(std::string path, SDL_Renderer* screen) {
 }
 
 
+SDL_Rect RocketObject::GetRectFrame() {
+    SDL_Rect rect;
+    rect.x = rect_.x;
+    rect.y = rect_.y;
+    rect.w = rect_.w;
+    rect.h = rect_.h;
+
+    return rect;
+}
+
+
 void RocketObject::Show(SDL_Renderer* des) {
 
     int mouseX, mouseY;
     SDL_GetMouseState(&mouseX, &mouseY);
-    x_pos_ = 1.0 * (mouseX - 20);
-    y_pos_ = 1.0 * (mouseY - 20);
+    x_pos_ = (mouseX - 20);
+    y_pos_ = (mouseY - 20);
 
 
     rect_.x = mouseX - 20;

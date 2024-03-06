@@ -31,12 +31,14 @@ public:
 
 	void LoadImgChicken(SDL_Renderer* screen);
 	
+	SDL_Rect GetRectFrame();
+
 	void SetEgg(SDL_Renderer* screen);
 
-	// Hàm xử lí đạn bắn
+	// Hàm xử lí bắn trứng
 	void HandelEgg(SDL_Renderer* screen);
 
-
+	EggObject* get_egg() const { return p_egg; }
 	
 
 private:

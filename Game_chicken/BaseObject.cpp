@@ -1,6 +1,6 @@
 ﻿#include "BaseObject.h"
 
-// Constructor
+
 BaseObject::BaseObject() {
     p_object_ = NULL;
     rect_.x = 0;
@@ -9,7 +9,7 @@ BaseObject::BaseObject() {
     rect_.h = 0;
 }
 
-// Destructor
+
 BaseObject::~BaseObject() {
     Free(); // Gọi hàm Free để giải phóng bộ nhớ trước khi hủy đối tượng
 }

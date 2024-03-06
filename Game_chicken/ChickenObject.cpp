@@ -23,6 +23,17 @@ void ChickenObject::LoadImgChicken(SDL_Renderer* screen) {
 	chicken_height_ = rect_.h;
 }
 
+
+SDL_Rect ChickenObject::GetRectFrame() {
+	SDL_Rect rect;
+	rect.x = rect_.x;
+	rect.y = rect_.y;
+	rect.w = rect_.w;
+	rect.h = rect_.h;
+
+	return rect;
+}
+
 void ChickenObject::SetEgg(SDL_Renderer* screen) {
 	EggObject* egg = new EggObject();
 
