@@ -13,7 +13,9 @@ bool InitData() {
     // Khởi tạo SDL
     bool check = true;
     int ret = SDL_Init(SDL_INIT_VIDEO);
-    if (ret < 0) return false;
+    int ret1 = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+
+    if (ret < 0 && ret1 < 0) return false;
 
     // Thiết lập cấu hình chất lượng render
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
@@ -46,6 +48,14 @@ bool InitData() {
             }
         }
     }
+
+    g_sound_chicken_die = Mix_LoadWAV("sounds/chickendie.wav");
+    g_sound_player_die = Mix_LoadWAV("sounds/playerdie.wav");
+    g_sound_game = Mix_LoadWAV("sounds/game.wav");
+
+    if (g_sound_chicken_die == NULL || g_sound_game == NULL || g_sound_player_die == NULL) {
+        return false;
+    }
     return check;
 }
 
@@ -67,6 +77,7 @@ void close() {
     g_window = NULL;
 
     IMG_Quit();
+    Mix_CloseAudio();
     SDL_Quit();
 }
 
@@ -92,6 +103,7 @@ std::vector<ChickenObject*> MakeChickenList() {
     return list_chickens;
 }
 
+
 int main(int argc, char* argv[]) {
     Timer fps_timer;
 
@@ -115,13 +127,16 @@ int main(int argc, char* argv[]) {
 
 
    // tạo hình ảnh vụ nổ
-   ExplosionObject exp_threat;
-   bool tRet = exp_threat.LoadImg("images/exp_main.png", g_screen);
-   if (!tRet) {
-       return -1;
-   }
-   exp_threat.set_clip();
+   
+    ExplosionObject exp_threat;
+    bool tRet = exp_threat.LoadImg("images/exp_main.png", g_screen);
+    if (!tRet) {
+        return -1;
+    }
+    exp_threat.set_clip();
 
+    // am thanh cho game
+    Mix_PlayChannel(-1, g_sound_game, 0);
 
     // Vòng lặp chính của game
     bool quit = false;
@@ -172,7 +187,9 @@ int main(int argc, char* argv[]) {
                     bool bCol2 = SDLCommonFunc::CheckCollision(rect_player, rect_chicken);
 
                     if (bCol1 || bCol2) {
-                        if (MessageBox(NULL, L"GAVEOVER", L"Info", MB_OK | MB_ICONSTOP) == IDOK) {
+                        Mix_PlayChannel(-1, g_sound_player_die, 0);
+
+                        if (MessageBox(NULL, L"GAMEOVER", L"Info", MB_OK | MB_ICONSTOP) == IDOK) {
                             p_chicken->Free();
                             close();
                             SDL_Quit();
@@ -223,9 +240,13 @@ int main(int argc, char* argv[]) {
                             }
 
 
+                            Mix_PlayChannel(-1, g_sound_chicken_die, 0);
+
                             p_player.RemoveBullet(r);
                             obj_chicken->Free();
                             chickens_list.erase(chickens_list.begin() + t);
+
+
                         }
                     }
                 }

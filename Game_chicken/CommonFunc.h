@@ -30,6 +30,10 @@ const int FRAME_PER_SECOND = 30; // fps
 // Giá trị màu được sử dụng khi vẽ các đối tượng lên màn hình
 const int RENDER_DRAW_COLOR = 0xff;
 
+static Mix_Chunk* g_sound_chicken_die;
+static Mix_Chunk* g_sound_player_die;
+static Mix_Chunk* g_sound_game;
+
 namespace SDLCommonFunc {
 	bool CheckCollision(const SDL_Rect& object1, const SDL_Rect& object2);
 }
