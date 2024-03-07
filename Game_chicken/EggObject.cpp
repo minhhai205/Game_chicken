@@ -6,12 +6,15 @@ EggObject::EggObject() {
     //egg_weight_ = 0;
     //egg_height_ = 0;
 	egg_move_ = false;
+    
 }
 EggObject::~EggObject() {
 
 }
 
 void EggObject::LoadImgEgg(SDL_Renderer* screen) {
+    
+    //std::cout << "dang xet loadimg\n";
     std::string path = "images/egg.png";
     SDL_Texture* new_texture = NULL;
     SDL_Surface* load_surface = IMG_Load(path.c_str());
@@ -28,6 +31,8 @@ void EggObject::LoadImgEgg(SDL_Renderer* screen) {
         SDL_FreeSurface(load_surface);
     }
     p_object_ = new_texture;
+    
+    
 }
 
 

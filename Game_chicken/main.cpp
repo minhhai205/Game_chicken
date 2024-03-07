@@ -82,21 +82,55 @@ void close() {
 }
 
 
+int number_health = 3;
+int level = 1;
+int numberChickenLevel1 = 0;
+int numberChickenLevel2 = 0;
+
+
+
+
 std::vector<ChickenObject*> MakeChickenList() {
     std::vector<ChickenObject*> list_chickens;
-    ChickenObject* chickens_objs = new ChickenObject[5];
-    srand(time(NULL)); // co the random tu 1 toi 3
-    for (int i = 0; i < 5; i++) {
-        ChickenObject* p_chicken = (chickens_objs + i);
-        if (p_chicken != NULL) {
-            p_chicken->LoadImgChicken(g_screen);
-            p_chicken->SetRect(rand() % (SCREEN_WIDTH-100), rand() % 80);
+    if (level == 1) {
+        ChickenObject* chickens_objs = new ChickenObject[5];
+        srand(time(NULL)); // co the random tu 1 toi 3
+        for (int i = 0; i < 5; i++) {
+            ChickenObject* p_chicken = (chickens_objs + i);
+            if (p_chicken != NULL) {
+                p_chicken->setTypeChicken(ChickenObject::CHICKEN_TYPE_1);
+                p_chicken->LoadImgChicken(g_screen);
+                p_chicken->SetRect(rand() % (SCREEN_WIDTH - 100), rand() % 80);
 
-            p_chicken->SetEgg(g_screen);
+                p_chicken->SetEgg(g_screen);
 
-            p_chicken->set_chicken_x_val(2);
-            p_chicken->set_chicken_move(true);
-            list_chickens.push_back(p_chicken);
+                p_chicken->set_chicken_x_val(2);
+                p_chicken->set_chicken_move(true);
+                list_chickens.push_back(p_chicken);
+                ++numberChickenLevel1;
+            }
+        }
+    }
+
+    else if (level == 2) {
+        ChickenObject* chickens_objs = new ChickenObject[5];
+        srand(time(NULL)); 
+        int tmp = rand() % 100 + 1;
+        int tmp1 = rand() % 300 + 1;
+        for (int i = 0; i < 5; i++) {
+            ChickenObject* p_chicken = (chickens_objs + i);
+            if (p_chicken != NULL) {
+                p_chicken->setTypeChicken(ChickenObject::CHICKEN_TYPE_2);
+                p_chicken->LoadImgChicken(g_screen);
+                p_chicken->SetRect(tmp1 + 75 * i, tmp);
+
+                p_chicken->SetEgg(g_screen);
+
+                p_chicken->set_chicken_x_val(2);
+                p_chicken->set_chicken_move(true);
+                list_chickens.push_back(p_chicken);
+                ++numberChickenLevel2;
+            }
         }
     }
 
@@ -106,6 +140,7 @@ std::vector<ChickenObject*> MakeChickenList() {
 
 int main(int argc, char* argv[]) {
     Timer fps_timer;
+
 
     // Khởi tạo SDL và load ảnh nền
     if (InitData() == false) {
@@ -161,11 +196,35 @@ int main(int argc, char* argv[]) {
 
         // Hiển thị player
         p_player.Show(g_screen);
-        
-        if (chickens_list.size() < 5) {
-           std::vector<ChickenObject*>  chickens_temp = MakeChickenList();
-           for (auto it : chickens_temp) chickens_list.push_back(it);
+
+
+        // thêm gà khi chết
+
+        if (numberChickenLevel1 > 25 && chickens_list.size() == 0) {
+            level = 2;
+            numberChickenLevel1 = 0;
         }
+        else if (numberChickenLevel1 > 25) {
+            level = 0;
+        }
+        
+        else if (numberChickenLevel2 > 55) {
+            level = 3;
+        }
+
+        //std::cout << chickens_list.size() << " " << level << std::endl;
+
+        if (chickens_list.size() < 5) {
+            std::vector<ChickenObject*>  chickens_temp = MakeChickenList();
+            for (auto it : chickens_temp) chickens_list.push_back(it);
+        }
+
+
+
+        int frame_exp_width = exp_threat.get_frame_width();
+        int frame_exp_height = exp_threat.get_frame_height();
+
+        //std::cout << "dang chay vong lap while\n";
         // Load chicken
         for (int i = 0; i < chickens_list.size(); i++) {
             ChickenObject* p_chicken = chickens_list.at(i);
@@ -173,7 +232,7 @@ int main(int argc, char* argv[]) {
                 if (p_chicken->get_chicken_move() == true) {
                     p_chicken->HandelChickenMove(SCREEN_WIDTH, SCREEN_HEIGHT);
                     p_chicken->Render(g_screen);
-                    p_chicken->HandelEgg(g_screen);
+                    p_chicken->ShowEgg(g_screen);
 
                     //check va chạm giữa tên lửa với vật cản
                     SDL_Rect rect_player = p_player.GetRectFrame();
@@ -187,6 +246,16 @@ int main(int argc, char* argv[]) {
                     bool bCol2 = SDLCommonFunc::CheckCollision(rect_player, rect_chicken);
 
                     if (bCol1 || bCol2) {
+                        
+                        for (int ex = 0; ex < NUM_FRAME_EXP; ex++) {
+                            int x_pos = p_chicken->GetRect().x - frame_exp_width * 0.5;
+                            int y_pos = p_chicken->GetRect().y - frame_exp_height * 0.5;
+
+                            exp_threat.set_frame(ex);
+                            exp_threat.SetRect(x_pos, y_pos);
+                            exp_threat.Show(g_screen);
+                        }
+
                         Mix_PlayChannel(-1, g_sound_player_die, 0);
 
                         if (MessageBox(NULL, L"GAMEOVER", L"Info", MB_OK | MB_ICONSTOP) == IDOK) {
@@ -209,8 +278,6 @@ int main(int argc, char* argv[]) {
         }
        
        
-        int frame_exp_width = exp_threat.get_frame_width();
-        int frame_exp_height = exp_threat.get_frame_height();
         // xử lí va chạm cho game
         std::vector<BulletObject*> bullet_arr = p_player.get_bullet_list();
         for (int r = 0; r < bullet_arr.size(); r++) {

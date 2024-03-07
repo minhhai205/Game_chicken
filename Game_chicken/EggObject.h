@@ -7,6 +7,11 @@ public:
 	EggObject();
 	~EggObject();
 
+	enum EggType {
+		EGG_SMALL = 20,
+		EGG_BIG = 21,
+	};
+
 	void set_egg_x_val(const int xVal) {
 		egg_x_val_ = xVal;
 	}
@@ -26,9 +31,11 @@ public:
 
 	//int get_egg_weight_() { return egg_weight_; }
 	//int get_egg_weight_() { return egg_height_; }
+
 private:
 	//int egg_weight_;
 	//int egg_height_;
+	
 	int egg_x_val_;
 	int egg_y_val_;
 	bool egg_move_;

@@ -25,6 +25,7 @@
     <ClCompile Include="CommonFunc.cpp" />
     <ClCompile Include="EggObject.cpp" />
     <ClCompile Include="ExplosionObject.cpp" />
+    <ClCompile Include="HealthPlayer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RocketObject.cpp" />
     <ClCompile Include="TheatsObject.cpp" />
@@ -37,6 +38,7 @@
     <ClInclude Include="CommonFunc.h" />
     <ClInclude Include="EggObject.h" />
     <ClInclude Include="ExplosionObject.h" />
+    <ClInclude Include="HealthPlayer.h" />
     <ClInclude Include="RocketObject.h" />
     <ClInclude Include="TheatsObject.h" />
     <ClInclude Include="Timer.h" />
