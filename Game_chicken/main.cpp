@@ -225,7 +225,7 @@ int main(int argc, char* argv[]) {
                         tRect.w = obj_chicken->get_chicken_width_();
                         tRect.h = obj_chicken->get_chicken_height_();
 
-                        //std::cout << obj_chicken->get_chicken_height_();
+                       
                         SDL_Rect bRect = p_bullet->GetRect();
                         bool bCol = SDLCommonFunc::CheckCollision(bRect, tRect);
 
