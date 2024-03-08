@@ -5,6 +5,7 @@
 #include "ChickenObject.h"
 #include "EggObject.h"
 #include "ExplosionObject.h"
+#include "HealthPlayer.h"
 
 BaseObject g_background;
 
@@ -153,12 +154,19 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 
+
+    // Load Mạng
+    HealthPlayer player_power;
+    player_power.Init(g_screen);
+
+
+
     // Load player
     RocketObject p_player;
     p_player.LoadImg("images/rocket.png", g_screen);
 
     //Load chicken
-   std::vector<ChickenObject*> chickens_list = MakeChickenList();
+    std::vector<ChickenObject*> chickens_list = MakeChickenList();
 
 
    // tạo hình ảnh vụ nổ
@@ -172,6 +180,8 @@ int main(int argc, char* argv[]) {
 
     // am thanh cho game
     Mix_PlayChannel(-1, g_sound_game, 0);
+
+    unsigned int die_number = 0;
 
     // Vòng lặp chính của game
     bool quit = false;
@@ -189,8 +199,14 @@ int main(int argc, char* argv[]) {
         SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
         SDL_RenderClear(g_screen);
         
-        // Hiển thị background và map
+        // Hiển thị background 
         g_background.Render(g_screen, NULL); // Load background
+
+
+        // Show mạng
+        player_power.LoadHealth(g_screen);
+
+
 
         p_player.HandelBullet(g_screen);
 
@@ -258,12 +274,26 @@ int main(int argc, char* argv[]) {
 
                         Mix_PlayChannel(-1, g_sound_player_die, 0);
 
-                        if (MessageBox(NULL, L"GAMEOVER", L"Info", MB_OK | MB_ICONSTOP) == IDOK) {
+                        ++die_number;
+                        if (die_number <= 2) {
+                            //SDL_Delay(1000);
+                            player_power.Decrease();
+                            player_power.LoadHealth(g_screen);
+
                             p_chicken->Free();
-                            close();
-                            SDL_Quit();
-                            return 0;
+                            chickens_list.erase(chickens_list.begin() + i);
+
+
                         }
+
+                       else {
+                            if (MessageBox(NULL, L"GAMEOVER", L"Info", MB_OK | MB_ICONSTOP) == IDOK) {
+                                p_chicken->Free();
+                                close();
+                                SDL_Quit();
+                                return 0;
+                            }
+                        }                   
                     }
 
                 }
