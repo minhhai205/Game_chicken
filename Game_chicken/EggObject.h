@@ -12,18 +12,12 @@ public:
 		EGG_BIG = 21,
 	};
 
-	void set_egg_x_val(const int xVal) {
-		egg_x_val_ = xVal;
-	}
-	void set_egg_y_val(const int yVal) {
-		egg_y_val_ = yVal;
-	}
+	void set_egg_x_val(const int xVal) { egg_x_val_ = xVal; }
+	void set_egg_y_val(const int yVal) { egg_y_val_ = yVal; }
 	int get_egg_x_val() { return egg_x_val_; }
 	int get_egg_y_val() { return egg_y_val_; }
 
-	void set_egg_move(const bool& Move) {
-		egg_move_ = Move;
-	}
+	void set_egg_move(const bool& Move) { egg_move_ = Move; }
 	bool get_egg_move() const { return egg_move_; }
 	void HandleEggMove(const int& x_border, const int& y_border);
 

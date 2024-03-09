@@ -99,13 +99,17 @@ std::vector<ChickenObject*> MakeChickenList() {
         for (int i = 0; i < 5; i++) {
             ChickenObject* p_chicken = (chickens_objs + i);
             if (p_chicken != NULL) {
-                p_chicken->setTypeChicken(ChickenObject::CHICKEN_TYPE_1);
                 p_chicken->LoadImgChicken(g_screen);
+                //
+                p_chicken->set_clip();
                 p_chicken->SetRect(rand() % (SCREEN_WIDTH - 100), rand() % 80);
+
+
+                
 
                 p_chicken->SetEgg(g_screen);
 
-                p_chicken->set_chicken_x_val(2);
+                p_chicken->set_chicken_x_val(1);
                 p_chicken->set_chicken_move(true);
                 list_chickens.push_back(p_chicken);
                 ++numberChickenLevel1;
@@ -121,13 +125,16 @@ std::vector<ChickenObject*> MakeChickenList() {
         for (int i = 0; i < 5; i++) {
             ChickenObject* p_chicken = (chickens_objs + i);
             if (p_chicken != NULL) {
-                p_chicken->setTypeChicken(ChickenObject::CHICKEN_TYPE_2);
                 p_chicken->LoadImgChicken(g_screen);
+                //
+                p_chicken->set_clip();
                 p_chicken->SetRect(tmp1 + 75 * i, tmp);
+
+                
 
                 p_chicken->SetEgg(g_screen);
 
-                p_chicken->set_chicken_x_val(2);
+                p_chicken->set_chicken_x_val(1);
                 p_chicken->set_chicken_move(true);
                 list_chickens.push_back(p_chicken);
                 ++numberChickenLevel2;
@@ -182,6 +189,7 @@ int main(int argc, char* argv[]) {
     Mix_PlayChannel(-1, g_sound_game, 0);
 
     unsigned int die_number = 0;
+    int scrollOffset = -(g_background.GetRect().h - SCREEN_HEIGHT);
 
     // Vòng lặp chính của game
     bool quit = false;
@@ -198,9 +206,24 @@ int main(int argc, char* argv[]) {
         // Xóa màn hình
         SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
         SDL_RenderClear(g_screen);
+
         
         // Hiển thị background 
-        g_background.Render(g_screen, NULL); // Load background
+        //g_background.Render(g_screen, NULL); // Load background
+        
+        scrollOffset += 0.5;
+        if (scrollOffset < 0) {
+            g_background.Render(g_screen);
+            g_background.SetRect(0, scrollOffset);
+        }
+        else {
+            scrollOffset = -(g_background.GetRect().h - SCREEN_HEIGHT);
+            g_background.Render(g_screen);
+            g_background.SetRect(0, 0);
+        }
+
+        
+        //SDL_RenderPresent(g_screen);
 
 
         // Show mạng
@@ -217,8 +240,8 @@ int main(int argc, char* argv[]) {
         // thêm gà khi chết
 
         if (numberChickenLevel1 > 25 && chickens_list.size() == 0) {
-            level = 2;
-            numberChickenLevel1 = 0;
+                level = 2;
+                numberChickenLevel1 = 0;
         }
         else if (numberChickenLevel1 > 25) {
             level = 0;
@@ -226,11 +249,12 @@ int main(int argc, char* argv[]) {
         
         else if (numberChickenLevel2 > 55) {
             level = 3;
+            numberChickenLevel2 = 0;
         }
 
         //std::cout << chickens_list.size() << " " << level << std::endl;
 
-        if (chickens_list.size() < 5) {
+        if ((level == 1 && chickens_list.size() < 3) || (level == 2 && chickens_list.size() < 10)) {
             std::vector<ChickenObject*>  chickens_temp = MakeChickenList();
             for (auto it : chickens_temp) chickens_list.push_back(it);
         }
@@ -247,7 +271,12 @@ int main(int argc, char* argv[]) {
             if (p_chicken != NULL) {
                 if (p_chicken->get_chicken_move() == true) {
                     p_chicken->HandelChickenMove(SCREEN_WIDTH, SCREEN_HEIGHT);
-                    p_chicken->Render(g_screen);
+                    //p_chicken->Render(g_screen);
+                   
+                   
+                    p_chicken->ShowChicken(g_screen);
+
+
                     p_chicken->ShowEgg(g_screen);
 
                     //check va chạm giữa tên lửa với vật cản
@@ -264,19 +293,19 @@ int main(int argc, char* argv[]) {
                     if (bCol1 || bCol2) {
                         
                         for (int ex = 0; ex < NUM_FRAME_EXP; ex++) {
-                            int x_pos = p_chicken->GetRect().x - frame_exp_width * 0.5;
-                            int y_pos = p_chicken->GetRect().y - frame_exp_height * 0.5;
-
+                            int x_pos = p_player.GetRectFrame().x -frame_exp_width * 0.5;
+                            int y_pos = p_player.GetRectFrame().y -frame_exp_height * 0.5;
+                            
                             exp_threat.set_frame(ex);
                             exp_threat.SetRect(x_pos, y_pos);
                             exp_threat.Show(g_screen);
+                            
                         }
 
                         Mix_PlayChannel(-1, g_sound_player_die, 0);
-
+                        
                         ++die_number;
                         if (die_number <= 2) {
-                            //SDL_Delay(1000);
                             player_power.Decrease();
                             player_power.LoadHealth(g_screen);
 
@@ -356,7 +385,7 @@ int main(int argc, char* argv[]) {
 
         
         int real_imp_time = fps_timer.get_ticks();
-        int time_one_frame = 600 / FRAME_PER_SECOND;
+        int time_one_frame = 800 / FRAME_PER_SECOND;
 
         if (real_imp_time < time_one_frame) {
             int delay_time = time_one_frame - real_imp_time;
