@@ -24,7 +24,6 @@ const int COLOR_KEY_B = 255;
 const int SCREEN_WIDTH = 860;
 const int SCREEN_HEIGHT = 640;
 const int SCREEN_BPP = 32;
-
 const int FRAME_PER_SECOND = 30; // fps
 
 // Giá trị màu được sử dụng khi vẽ các đối tượng lên màn hình

@@ -33,6 +33,7 @@ public:
     void set_bullet_list(std::vector<BulletObject*> bullet_list) {
         p_bullet_list_ = bullet_list;
     }
+
     std::vector<BulletObject*> get_bullet_list() const { return p_bullet_list_; }
 
     int get_width_frame() { return width_frame_; }

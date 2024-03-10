@@ -12,24 +12,16 @@ public:
 		FIRE_BULLET = 11,
 	};
 
-	void set_x_val(const int xVal) {
-		x_val_ = xVal;
-	}
-	void set_y_val(const int yVal) {
-		y_val_ = yVal;
-	}
+	void set_x_val(const int xVal) {x_val_ = xVal;}
+	void set_y_val(const int yVal) {y_val_ = yVal;}
 	int get_x_val() { return x_val_; }
 	int get_y_val() { return y_val_; }
 
-	void set_is_move(const bool& Move) {
-		is_move_ = Move;
-	}
+	void set_is_move(const bool& Move) {is_move_ = Move;}
 	bool get_is_move() const { return is_move_; }
 	void HandleMove(const int& x_border, const int& y_border);
 
-	void set_bullet_type(const unsigned int& bulletType) {
-		bullet_type_ = bulletType;
-	}
+	void set_bullet_type(const unsigned int& bulletType) {bullet_type_ = bulletType;}
 
 	unsigned int get_bullet_type() const { return bullet_type_; }
 

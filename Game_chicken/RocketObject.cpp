@@ -53,14 +53,14 @@ void RocketObject::HandelInput(SDL_Event events, SDL_Renderer* screen) {
     if (events.type == SDL_MOUSEBUTTONDOWN) {
         BulletObject* p_bullet = new BulletObject();
 
-       if (events.button.button == SDL_BUTTON_RIGHT) {
-            p_bullet->set_bullet_type(BulletObject::FIRE_BULLET);
-            p_bullet->LoadImgBullet(screen);
-            p_bullet->SetRect(this->rect_.x + 12, rect_.y - 45);
-            p_bullet->set_x_val(7);
-            p_bullet->set_is_move(true);
-            p_bullet_list_.push_back(p_bullet);
-       }
+        if (events.button.button == SDL_BUTTON_RIGHT) {
+             p_bullet->set_bullet_type(BulletObject::FIRE_BULLET);
+             p_bullet->LoadImgBullet(screen);
+             p_bullet->SetRect(this->rect_.x + 12, rect_.y - 45);
+             p_bullet->set_x_val(7);
+             p_bullet->set_is_move(true);
+             p_bullet_list_.push_back(p_bullet);
+        }
 
         else if (events.button.button == SDL_BUTTON_LEFT) {
             p_bullet->set_bullet_type(BulletObject::RED_BULLET);

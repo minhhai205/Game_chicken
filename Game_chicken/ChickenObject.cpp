@@ -15,7 +15,6 @@ ChickenObject::~ChickenObject() {
 
 void ChickenObject::HandelChickenMove(const int& x_boder, const int& y_boder) {
 	
-
 	rect_.y += chicken_x_val_;
 	if (rect_.y > y_boder) chicken_move_ = false;
 }
