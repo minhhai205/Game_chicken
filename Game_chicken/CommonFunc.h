@@ -36,3 +36,4 @@ static Mix_Chunk* g_sound_game;
 namespace SDLCommonFunc {
 	bool CheckCollision(const SDL_Rect& object1, const SDL_Rect& object2);
 }
+

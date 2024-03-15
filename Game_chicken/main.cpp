@@ -15,7 +15,7 @@
 BaseObject g_background;
 BaseObject round2;
 BaseObject round3;
-TTF_Font* font_point;
+TTF_Font* text_font;
 
 // Khởi tạo các thành phần của SDL
 bool InitData() {
@@ -60,8 +60,8 @@ bool InitData() {
         if (TTF_Init() == -1) {
             check = false;
         }
-        font_point = TTF_OpenFont("font/dlxfont_.ttf", 15);
-        if (font_point == NULL) check = false;
+        text_font = TTF_OpenFont("font/dlxfont_.ttf", 15);
+        if (text_font == NULL) check = false;
         
     }
 
@@ -94,17 +94,126 @@ void close() {
     SDL_DestroyWindow(g_window);
     g_window = NULL;
 
-    IMG_Quit();
-    Mix_CloseAudio();
+   // IMG_Quit();
+   // Mix_CloseAudio();
+    //SDL_Quit();
+
     SDL_Quit();
+    IMG_Quit();
+    TTF_Quit();
+    Mix_Quit();
 }
 
-
+std::vector<ChickenObject*> chickens_list;
 int number_health = 3;
 int level = 1;
 int numberChickenLevel1 = 0;
 int numberChickenLevel2 = 0;
 int numberKillBoss = 0;
+int dem1 = 0;
+int dem2 = 0;
+int point = 0;
+bool quit = false;
+
+bool check_mouse_vs_item(const int& x, const int& y, const SDL_Rect& rect) {
+    if (x >= rect.x && x <= rect.x + rect.w && y >= rect.y && y <= rect.y + rect.h) {
+        return true;
+    }
+    return false;
+}
+
+void ShowMenu(SDL_Renderer* screen, TTF_Font* font) {
+    BaseObject menu;
+    BaseObject menu2;
+    if (!menu.LoadImg("images/menu.jpg", g_screen)){
+        quit = true;
+        return;
+    }
+    //menu.Render(g_screen);
+
+    const int number_of_item = 2;
+    SDL_Rect pos_arr[number_of_item];
+    Text text_menu[number_of_item];
+
+    text_menu[0].SetText("Play Game");
+    text_menu[0].SetColor(Text::BLACK);
+    pos_arr[0].x = 150;
+    pos_arr[0].y = 400;
+    pos_arr[0].w = 50;
+    pos_arr[0].h = 20;
+
+    text_menu[1].SetText("Exit");
+    text_menu[1].SetColor(Text::BLACK);
+    pos_arr[1].x = 150;
+    pos_arr[1].y = 450;
+    pos_arr[1].w = 50;
+    pos_arr[1].h = 20;
+
+    bool is_quit = false;
+    while (!is_quit) {
+        while (SDL_PollEvent(&g_event) != 0) {
+            
+
+            menu.Render(g_screen);
+            text_menu[0].LoadFromRenderText(text_font, g_screen);
+            text_menu[0].RenderText(g_screen, pos_arr[0].x, pos_arr[0].y);
+            text_menu[1].LoadFromRenderText(text_font, g_screen);
+            text_menu[1].RenderText(g_screen, pos_arr[1].x, pos_arr[1].y);
+
+            int mouseX, mouseY;
+            SDL_GetMouseState(&mouseX, &mouseY);
+
+            if (g_event.type == SDL_QUIT) {
+                quit = true;
+                is_quit = true;
+            }
+            
+
+            else if (g_event.type == SDL_MOUSEMOTION) {
+               
+                for (int i = 0; i < number_of_item; i++) {
+                    if (check_mouse_vs_item(mouseX, mouseY,pos_arr[i])) { text_menu[i].SetColor(Text::WHITE); }
+                    else { text_menu[i].SetColor(Text::BLACK); }
+                }
+            }
+
+            if (g_event.type == SDL_MOUSEBUTTONDOWN) {
+                
+                if (g_event.button.button == SDL_BUTTON_LEFT) {
+                    for (int i = 0; i < number_of_item; i++) {
+                        if (check_mouse_vs_item(mouseX, mouseY, pos_arr[i])) {
+                            if (i == 0) { is_quit = true; }
+                            else if (i == 1) { quit = true; is_quit = true; }
+                        }
+                    }
+                }
+                
+               
+            }
+        }
+        
+
+
+        SDL_RenderPresent(g_screen);
+    }
+
+}
+
+
+
+
+void ResetGame() {
+    number_health = 3;
+    level = 1;
+    numberChickenLevel1 = 0;
+    numberChickenLevel2 = 0;
+    numberKillBoss = 0;
+    chickens_list.clear();
+    dem1 = 0;
+    dem2 = 0;
+    point = 0;
+}
+
 
 
 
@@ -200,7 +309,7 @@ int main(int argc, char* argv[]) {
     p_player.LoadImg("images/rocket.png", g_screen);
 
     //Load chicken
-    std::vector<ChickenObject*> chickens_list = MakeChickenList();
+    chickens_list = MakeChickenList();
 
 
     // tạo hình ảnh vụ nổ
@@ -226,15 +335,20 @@ int main(int argc, char* argv[]) {
     boss->set_boss_x_val(3);
     boss->SetEgg(g_screen);
 
-    int dem1 = 0, dem2 = 0;
-    int point = 0;
+    
 
     Text point_game;
     point_game.SetColor(Text::WHITE);
     //std::string str_point = "Point: ";
 
+
+
+    ShowMenu(g_screen, text_font);
+
+
+
     // Vòng lặp chính của game
-    bool quit = false;
+
     while (!quit) {
         
         fps_timer.start();
@@ -274,17 +388,17 @@ int main(int argc, char* argv[]) {
 
         // thêm gà khi chết
 
-        if (numberChickenLevel1 > 25 && chickens_list.size() == 0) {
+        if (numberChickenLevel1 > 5 && chickens_list.size() == 0) {
             level = 2;
             numberChickenLevel1 = 0;
         }
 
-        if (numberChickenLevel2 > 55 && chickens_list.size() == 0) {
+        if (numberChickenLevel2 > 25 && chickens_list.size() == 0) {
             level = 3;
             numberChickenLevel2 = 0;
         }
 
-        else if (numberChickenLevel2 > 55 || numberChickenLevel1 > 25) {
+        else if (numberChickenLevel2 > 25 || numberChickenLevel1 > 5) {
             level = 0;
         }
 
@@ -431,7 +545,7 @@ int main(int argc, char* argv[]) {
 
             
             SDL_Rect bossRect = boss->GetRectFrame();
-
+            std::vector<EggObject*> listEgg = boss->getEggList();
             // check ban trung boss
             for (int r = 0; r < bullet_arr.size(); r++) {
                 BulletObject* p_bullet = bullet_arr.at(r);
@@ -457,10 +571,13 @@ int main(int argc, char* argv[]) {
                         ++numberKillBoss;
 
                         if (numberKillBoss == 10) {
-                           
-                            //boss->getSizelist();
+                            while (boss->getSizeEgglist() > 0) {
+                                boss->RemoveEgg(0);
+                            }
+                            
                             level = 0;
-                            boss->Free();
+                            ResetGame();
+                           // boss->Free();
                         }
                     }
 
@@ -470,7 +587,7 @@ int main(int argc, char* argv[]) {
             // check va cham
             SDL_Rect rect_player = p_player.GetRectFrame();
             bool b_Col1 = false;
-            std::vector<EggObject*> listEgg = boss->getEggList();
+          
             //std::cout << listEgg.size() << std::endl;
             for (int k = 0; k < listEgg.size(); k++) {
                 EggObject* tEgg = listEgg.at(k);
@@ -522,7 +639,7 @@ int main(int argc, char* argv[]) {
 
         // hien point
         point_game.SetText("Point: " + std::to_string(point));
-        point_game.LoadFromRenderText(font_point, g_screen);
+        point_game.LoadFromRenderText(text_font, g_screen);
         point_game.RenderText(g_screen, 120, 5);
 
         // Hiển thị màn hình

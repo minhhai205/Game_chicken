@@ -29,6 +29,7 @@ public:
 
 	std::vector<EggObject*> getEggList() { return egg_list; }
 	void setEggList(std::vector<EggObject*> eggList) { egg_list = eggList; }
+	int getSizeEgglist() { return egg_list.size(); }
 	// Hàm xử lí bắn trứng
 	void ShowEgg(SDL_Renderer* screen);
 	void SetEgg(SDL_Renderer* screen);
