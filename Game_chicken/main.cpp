@@ -274,17 +274,17 @@ int main(int argc, char* argv[]) {
 
         // thêm gà khi chết
 
-        if (numberChickenLevel1 > 5 && chickens_list.size() == 0) {
+        if (numberChickenLevel1 > 25 && chickens_list.size() == 0) {
             level = 2;
             numberChickenLevel1 = 0;
         }
 
-        if (numberChickenLevel2 > 15 && chickens_list.size() == 0) {
+        if (numberChickenLevel2 > 55 && chickens_list.size() == 0) {
             level = 3;
             numberChickenLevel2 = 0;
         }
 
-        else if (numberChickenLevel2 > 15 || numberChickenLevel1 > 5) {
+        else if (numberChickenLevel2 > 55 || numberChickenLevel1 > 25) {
             level = 0;
         }
 

@@ -11,6 +11,22 @@ Text::~Text() {
 
 }
 
+
+
+void Text::SetColor(Uint8 red, Uint8 green, Uint8 blue) {
+    text_color.r = red;
+    text_color.g = green;
+    text_color.b = blue;
+}
+
+void Text::SetColor(int type) {
+    SDL_Color color;
+    if (type == WHITE) color = { 255, 255, 255 };
+    else if (type == RED) color = { 255, 0, 0 };
+    else if (type == BLACK) color = { 0, 0, 0 };
+    text_color = color;
+}
+
 bool Text::LoadFromRenderText(TTF_Font* font, SDL_Renderer* screen) {
     SDL_Surface* text_surface = TTF_RenderText_Solid(font, str_val.c_str(), text_color);
     if (text_surface) {
@@ -28,20 +44,6 @@ void Text::Free() {
         SDL_DestroyTexture(texture);
         texture = NULL;
     }
-}
-
-void Text::SetColor(Uint8 red, Uint8 green, Uint8 blue) {
-    text_color.r = red;
-    text_color.g = green;
-    text_color.b = blue;
-}
-
-void Text::SetColor(int type) {
-    SDL_Color color;
-    if (type == WHITE) color = { 255, 255, 255 };
-    else if (type == RED) color = { 255, 0, 0 };
-    else if (type == BLACK) color = { 0, 0, 0 };
-    text_color = color;
 }
 
 void Text::RenderText(SDL_Renderer* screen,
