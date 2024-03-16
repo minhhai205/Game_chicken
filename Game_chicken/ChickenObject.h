@@ -25,9 +25,9 @@ public:
 	int get_chicken_width_() { return chicken_width_; }
 	int get_chicken_height_() { return chicken_height_; }
 
-
 	
-	void HandelChickenMove(const int& x_border, const int& y_border);
+	
+	void HandelChickenMove(const int& x_boder, const int& y_boder);
 	void LoadImgChicken(SDL_Renderer* screen);
 	
 	SDL_Rect GetRectFrame();

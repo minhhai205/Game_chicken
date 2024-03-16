@@ -35,6 +35,15 @@ void HealthPlayer::Init(SDL_Renderer* screen) {
 
 }
 
+void HealthPlayer::ResetHealth() {
+	number_ = 3;
+	if (pos_list_.size() > 0) {
+		pos_list_.clear();
+	}
+	AddPos(10);
+	AddPos(30);
+	AddPos(50);
+}
 void HealthPlayer::Decrease() {
 	--number_;
 	pos_list_.pop_back();

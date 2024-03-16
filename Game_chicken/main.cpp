@@ -105,15 +105,19 @@ void close() {
 }
 
 std::vector<ChickenObject*> chickens_list;
-int number_health = 3;
 int level = 1;
 int numberChickenLevel1 = 0;
 int numberChickenLevel2 = 0;
 int numberKillBoss = 0;
 int dem1 = 0;
 int dem2 = 0;
+int dem3 = 0;
 int point = 0;
 bool quit = false;
+int type_menu = 0;
+bool check_boss_die = false;
+unsigned int die_number = 0;
+int scrollOffset = -(g_background.GetRect().h - SCREEN_HEIGHT);
 
 bool check_mouse_vs_item(const int& x, const int& y, const SDL_Rect& rect) {
     if (x >= rect.x && x <= rect.x + rect.w && y >= rect.y && y <= rect.y + rect.h) {
@@ -124,14 +128,14 @@ bool check_mouse_vs_item(const int& x, const int& y, const SDL_Rect& rect) {
 
 void ShowMenu(SDL_Renderer* screen, TTF_Font* font) {
     BaseObject menu;
-    BaseObject menu2;
+    //BaseObject menu2;
     if (!menu.LoadImg("images/menu.jpg", g_screen)){
         quit = true;
         return;
     }
     //menu.Render(g_screen);
 
-    const int number_of_item = 2;
+    const int number_of_item = 3;
     SDL_Rect pos_arr[number_of_item];
     Text text_menu[number_of_item];
 
@@ -149,16 +153,32 @@ void ShowMenu(SDL_Renderer* screen, TTF_Font* font) {
     pos_arr[1].w = 50;
     pos_arr[1].h = 20;
 
+    text_menu[2].SetText("Play again");
+    text_menu[2].SetColor(Text::BLACK);
+    pos_arr[2].x = 150;
+    pos_arr[2].y = 400;
+    pos_arr[2].w = 50;
+    pos_arr[2].h = 20;
+
     bool is_quit = false;
     while (!is_quit) {
         while (SDL_PollEvent(&g_event) != 0) {
             
 
             menu.Render(g_screen);
-            text_menu[0].LoadFromRenderText(text_font, g_screen);
-            text_menu[0].RenderText(g_screen, pos_arr[0].x, pos_arr[0].y);
-            text_menu[1].LoadFromRenderText(text_font, g_screen);
-            text_menu[1].RenderText(g_screen, pos_arr[1].x, pos_arr[1].y);
+            if (type_menu == 0) {
+                text_menu[0].LoadFromRenderText(text_font, g_screen);
+                text_menu[0].RenderText(g_screen, pos_arr[0].x, pos_arr[0].y);
+                text_menu[1].LoadFromRenderText(text_font, g_screen);
+                text_menu[1].RenderText(g_screen, pos_arr[1].x, pos_arr[1].y);
+            }
+            else {
+                text_menu[2].LoadFromRenderText(text_font, g_screen);
+                text_menu[2].RenderText(g_screen, pos_arr[0].x, pos_arr[0].y);
+                text_menu[1].LoadFromRenderText(text_font, g_screen);
+                text_menu[1].RenderText(g_screen, pos_arr[1].x, pos_arr[1].y);
+            }
+            
 
             int mouseX, mouseY;
             SDL_GetMouseState(&mouseX, &mouseY);
@@ -170,7 +190,7 @@ void ShowMenu(SDL_Renderer* screen, TTF_Font* font) {
             
 
             else if (g_event.type == SDL_MOUSEMOTION) {
-               
+                
                 for (int i = 0; i < number_of_item; i++) {
                     if (check_mouse_vs_item(mouseX, mouseY,pos_arr[i])) { text_menu[i].SetColor(Text::WHITE); }
                     else { text_menu[i].SetColor(Text::BLACK); }
@@ -182,7 +202,7 @@ void ShowMenu(SDL_Renderer* screen, TTF_Font* font) {
                 if (g_event.button.button == SDL_BUTTON_LEFT) {
                     for (int i = 0; i < number_of_item; i++) {
                         if (check_mouse_vs_item(mouseX, mouseY, pos_arr[i])) {
-                            if (i == 0) { is_quit = true; }
+                            if (i == 0 || i == 2) { is_quit = true; }
                             else if (i == 1) { quit = true; is_quit = true; }
                         }
                     }
@@ -203,7 +223,6 @@ void ShowMenu(SDL_Renderer* screen, TTF_Font* font) {
 
 
 void ResetGame() {
-    number_health = 3;
     level = 1;
     numberChickenLevel1 = 0;
     numberChickenLevel2 = 0;
@@ -211,7 +230,9 @@ void ResetGame() {
     chickens_list.clear();
     dem1 = 0;
     dem2 = 0;
+    dem3 = 0;
     point = 0;
+    die_number = 0;
 }
 
 
@@ -302,8 +323,6 @@ int main(int argc, char* argv[]) {
 
     
 
-
-
     // Load player
     RocketObject p_player;
     p_player.LoadImg("images/rocket.png", g_screen);
@@ -324,8 +343,7 @@ int main(int argc, char* argv[]) {
     // am thanh cho game
     Mix_PlayChannel(-1, g_sound_game, 0);
 
-    unsigned int die_number = 0;
-    int scrollOffset = -(g_background.GetRect().h - SCREEN_HEIGHT);
+    
 
     // tạo boss
     BossObject* boss = new BossObject();
@@ -424,6 +442,8 @@ int main(int argc, char* argv[]) {
         int frame_exp_width = exp_threat.get_frame_width();
         int frame_exp_height = exp_threat.get_frame_height();
 
+
+
         //std::cout << "dang chay vong lap while\n";
         // Load chicken
         for (int i = 0; i < chickens_list.size(); i++) {
@@ -431,6 +451,7 @@ int main(int argc, char* argv[]) {
             if (p_chicken != NULL) {
                 if (p_chicken->get_chicken_move() == true) {
                     p_chicken->HandelChickenMove(SCREEN_WIDTH, SCREEN_HEIGHT);
+                   
                     //p_chicken->Render(g_screen);
 
 
@@ -479,9 +500,12 @@ int main(int argc, char* argv[]) {
                         else {
                             if (MessageBox(NULL, L"GAMEOVER", L"Info", MB_OK | MB_ICONSTOP) == IDOK) {
                                 p_chicken->Free();
-                                close();
-                                SDL_Quit();
-                                return 0;
+                                type_menu = 1;
+                                ResetGame();
+                                player_power.ResetHealth();
+                                ShowMenu(g_screen, text_font);
+                               
+                                
                             }
                         }
                     }
@@ -535,6 +559,20 @@ int main(int argc, char* argv[]) {
                 }
             }
         }
+        // hien menu game over
+        if (check_boss_die == true) {
+            if (dem3 < 50) ++dem3;
+            else {
+                if (MessageBox(NULL, L"WIN GAME", L"Info", MB_OK | MB_ICONSTOP) == IDOK) {
+                    type_menu = 1;
+                    player_power.ResetHealth();
+                    ShowMenu(g_screen, text_font);
+                    ResetGame();
+                }
+                check_boss_die = false;
+            }
+           
+        }
 
         if (level == 3) {
 
@@ -576,7 +614,8 @@ int main(int argc, char* argv[]) {
                             }
                             
                             level = 0;
-                            ResetGame();
+                            //ResetGame();
+                            check_boss_die = true;
                            // boss->Free();
                         }
                     }
@@ -626,10 +665,10 @@ int main(int argc, char* argv[]) {
 
                 else {
                     if (MessageBox(NULL, L"GAMEOVER", L"Info", MB_OK | MB_ICONSTOP) == IDOK) {
-                        boss->Free();
-                        close();
-                        SDL_Quit();
-                        return 0;
+                        type_menu = 1;
+                        ResetGame();
+                        player_power.ResetHealth();
+                        ShowMenu(g_screen, text_font);
                     }
                 }
                

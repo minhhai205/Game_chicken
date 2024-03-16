@@ -7,9 +7,9 @@ public:
 	HealthPlayer();
 	~HealthPlayer();
 
-	void SetNumber(const int& num) { number_ = num; }
+	void SetNumber(int num) { number_ = num; }
 	void AddPos(const int& xpos);
-
+	void ResetHealth();
 	void LoadHealth(SDL_Renderer* gscreen);
 
 	void Init(SDL_Renderer* screen);
