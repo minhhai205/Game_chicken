@@ -7,7 +7,6 @@ ChickenObject::ChickenObject() {
 	chicken_height_ = 0;
 	chicken_move_ = false;
 	frame_ = 0;
-
 }
 ChickenObject::~ChickenObject() {
 
@@ -17,6 +16,19 @@ ChickenObject::~ChickenObject() {
 void ChickenObject::HandelChickenMove(const int& x_boder, const int& y_boder) {
 
 	rect_.y += chicken_x_val_;
+	//rect_.x += 1;
+	//rect_.y += 1;
+	/*if (check == true) {
+		rect_.x += 2;
+		rect_.y += 2;
+		if (rect_.x + chicken_width_ >= SCREEN_WIDTH) check = false;
+	}
+	else if (check == false) {
+		rect_.x -= 2;
+		rect_.y += 2;
+		if (rect_.x <= 0) check = true;
+	}
+	*/
 	if (rect_.y > y_boder) chicken_move_ = false;
 }
 
@@ -88,7 +100,7 @@ void ChickenObject::SetEgg(SDL_Renderer* screen) {
 
 	egg->LoadImgEgg(screen);
 	egg->SetRect(this->rect_.x + 25, rect_.y + 45);
-	egg->set_egg_x_val(2);
+	egg->set_egg_x_val(3);
 	egg->set_egg_move(true);
 	p_egg = egg;
 

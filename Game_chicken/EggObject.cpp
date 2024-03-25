@@ -3,8 +3,6 @@
 EggObject::EggObject() {
 	egg_x_val_ = 0;
 	egg_y_val_ = 0;
-    //egg_weight_ = 0;
-    //egg_height_ = 0;
 	egg_move_ = false;
     
 }
@@ -25,8 +23,6 @@ void EggObject::LoadImgEgg(SDL_Renderer* screen) {
             rect_.w = load_surface->w;
             rect_.h = load_surface->h;
 
-            //egg_weight_ = rect_.w;
-            //egg_height_ = rect_.h;
         }
         SDL_FreeSurface(load_surface);
     }

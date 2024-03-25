@@ -8,7 +8,7 @@ HealthPlayer::~HealthPlayer() {
 
 }
 
-void HealthPlayer::AddPos(const int& xpos) {
+void HealthPlayer::AddPos(int xpos) {
 	pos_list_.push_back(xpos);
 }
 void HealthPlayer::LoadHealth(SDL_Renderer* screen) {

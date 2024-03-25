@@ -16,8 +16,6 @@ public:
 
 	void set_boss_x_val(const int xVal) { boss_x_val_ = xVal; }
 	void set_boss_y_val(const int yVal) { boss_y_val_ = yVal; }
-	float get_boss_x_val() { return boss_x_val_; }
-	float get_boss_y_val() { return boss_y_val_; }
 
 	int get_boss_width_() { return boss_width_; }
 	int get_boss_height_() { return boss_height_; }

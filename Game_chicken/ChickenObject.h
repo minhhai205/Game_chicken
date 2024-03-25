@@ -16,17 +16,10 @@ public:
 
 	void set_chicken_x_val(const int xVal) {chicken_x_val_ = xVal;}
 	void set_chicken_y_val(const int yVal) {chicken_y_val_ = yVal;}
-	float get_chicken_x_val() { return chicken_x_val_; }
-	float get_chicken_y_val() { return chicken_y_val_; }
 
 	bool get_chicken_move() const { return chicken_move_; }
 	void set_chicken_move(const bool& Move) {chicken_move_ = Move;}
 
-	int get_chicken_width_() { return chicken_width_; }
-	int get_chicken_height_() { return chicken_height_; }
-
-	
-	
 	void HandelChickenMove(const int& x_boder, const int& y_boder);
 	void LoadImgChicken(SDL_Renderer* screen);
 	
@@ -54,5 +47,4 @@ private:
 	float chicken_x_val_;
 	float chicken_y_val_;
 	bool chicken_move_;
-
 };

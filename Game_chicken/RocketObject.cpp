@@ -18,17 +18,6 @@ bool RocketObject::LoadImg(std::string path, SDL_Renderer* screen) {
 }
 
 
-SDL_Rect RocketObject::GetRectFrame() {
-    SDL_Rect rect;
-    rect.x = rect_.x;
-    rect.y = rect_.y;
-    rect.w = rect_.w;
-    rect.h = rect_.h;
-
-    return rect;
-}
-
-
 void RocketObject::Show(SDL_Renderer* des) {
 
     int mouseX, mouseY;

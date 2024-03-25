@@ -14,8 +14,6 @@ public:
 
 	void set_x_val(const int xVal) {x_val_ = xVal;}
 	void set_y_val(const int yVal) {y_val_ = yVal;}
-	int get_x_val() { return x_val_; }
-	int get_y_val() { return y_val_; }
 
 	void set_is_move(const bool& Move) {is_move_ = Move;}
 	bool get_is_move() const { return is_move_; }

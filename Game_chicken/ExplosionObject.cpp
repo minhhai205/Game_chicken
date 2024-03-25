@@ -35,9 +35,7 @@ void ExplosionObject::set_clip() {
 }
 
 void ExplosionObject::Show(SDL_Renderer* screen) {
-    //frame_++;
-    //if (frame_ >= NUM_FRAME_EXP) frame_ = 0;
-
+    
     SDL_Rect* current_clip = &frame_clip_[frame_];
     SDL_Rect render_quad = { rect_.x, rect_.y , frame_width_, frame_height_ };
     if (current_clip != NULL) {
