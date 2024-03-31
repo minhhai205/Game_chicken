@@ -23,8 +23,6 @@ const int COLOR_KEY_B = 255;
 // Thông số màn hình
 const int SCREEN_WIDTH = 860;
 const int SCREEN_HEIGHT = 640;
-//const int SCREEN_WIDTH = 1100;
-//const int SCREEN_HEIGHT = 700;
 const int SCREEN_BPP = 32;
 const int FRAME_PER_SECOND = 30; // fps
 
@@ -35,6 +33,7 @@ static Mix_Chunk* g_sound_chicken_die;
 static Mix_Chunk* g_sound_player_die;
 static Mix_Chunk* g_sound_game;
 static Mix_Chunk* g_sound_eat_chicken;
+static Mix_Chunk* g_sound_chicken_hit;
 
 namespace SDLCommonFunc {
 	bool CheckCollision(const SDL_Rect& object1, const SDL_Rect& object2);

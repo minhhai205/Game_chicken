@@ -95,12 +95,13 @@ void ChickenObject::ShowChicken(SDL_Renderer* screen) {
 
 
 
-void ChickenObject::SetEgg(SDL_Renderer* screen) {
+void ChickenObject::SetEgg(SDL_Renderer* screen, int type) {
 	EggObject* egg = new EggObject();
 
 	egg->LoadImgEgg(screen);
 	egg->SetRect(this->rect_.x + 25, rect_.y + 45);
-	egg->set_egg_x_val(3);
+	if (type % 2 == 0) egg->set_egg_x_val(4);
+	else egg->set_egg_x_val(5);
 	egg->set_egg_move(true);
 	p_egg = egg;
 

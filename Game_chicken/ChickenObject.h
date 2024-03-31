@@ -25,7 +25,7 @@ public:
 	
 	SDL_Rect GetRectFrame();
 
-	void SetEgg(SDL_Renderer* screen);
+	void SetEgg(SDL_Renderer* screen, int type);
 
 	// Hàm xử lí bắn trứng
 	void ShowEgg(SDL_Renderer* screen);
