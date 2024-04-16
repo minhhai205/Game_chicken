@@ -41,7 +41,7 @@ private:
 	EggObject* p_egg;
 	std::vector<ChickenObject*> p_chicken_list_; 
 	SDL_Rect frame_clip_[NUM_FRAME_CHICKEN];
-	unsigned int frame_;
+	int frame_;
 	int chicken_width_; 
 	int chicken_height_;
 	float chicken_x_val_;

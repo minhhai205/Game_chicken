@@ -24,7 +24,7 @@ void HealthPlayer::LoadHealth(SDL_Renderer* screen) {
 }
 
 void HealthPlayer::Init(SDL_Renderer* screen) {
-	LoadImg("images/health.png", screen);
+	LoadImg("images/health.png", screen, 0, 255, 255);
 	number_ = 3;
 	if (pos_list_.size() > 0) {
 		pos_list_.clear();

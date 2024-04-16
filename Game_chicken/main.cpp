@@ -68,7 +68,7 @@ bool InitData() {
 
     g_sound_chicken_die = Mix_LoadWAV("sounds/chickendie.wav");
     g_sound_player_die = Mix_LoadWAV("sounds/playerdie.wav");
-    g_sound_game = Mix_LoadWAV("sounds/game.wav");
+    g_sound_game = Mix_LoadWAV("sounds/game.mp3");
     g_sound_eat_chicken = Mix_LoadWAV("sounds/eatchicken.wav");
     g_sound_chicken_hit = Mix_LoadWAV("sounds/sound_ChickenHit.wav");
 
@@ -80,7 +80,7 @@ bool InitData() {
 
 // Load ảnh nền
 bool LoadBackground() {
-    bool ret = g_background.LoadImg("images/bk.png", g_screen);
+    bool ret = g_background.LoadImg("images/bk.png", g_screen, 0, 0, 0);
     if (ret == false) return false;
     return true;
 }
@@ -97,9 +97,6 @@ void close() {
     SDL_DestroyWindow(g_window);
     g_window = NULL;
 
-   // IMG_Quit();
-   // Mix_CloseAudio();
-    //SDL_Quit();
 
     SDL_Quit();
     IMG_Quit();
@@ -134,18 +131,18 @@ bool check_mouse_vs_item(const int& x, const int& y, const SDL_Rect& rect) {
 
 void ShowMenu(SDL_Renderer* screen, TTF_Font* font) {
     BaseObject menu;
-    if (!menu.LoadImg("images/menu.jpg", g_screen)){
+    if (!menu.LoadImg("images/menu.jpg", g_screen, 0, 0, 0)){
         quit = true;
         return;
     }
 
     BaseObject list_menu[6];
-    list_menu[0].LoadImg("images/playbutton.png", g_screen);
-    list_menu[1].LoadImg("images/replaybutton.png", g_screen);
-    list_menu[2].LoadImg("images/exitbutton.png", g_screen);
-    list_menu[3].LoadImg("images/playbutton1.png", g_screen);
-    list_menu[4].LoadImg("images/replaybutton1.png", g_screen);
-    list_menu[5].LoadImg("images/exitbutton1.png", g_screen);
+    list_menu[0].LoadImg("images/playbutton.png", g_screen, 0, 255, 255);
+    list_menu[1].LoadImg("images/replaybutton.png", g_screen, 0, 255, 255);
+    list_menu[2].LoadImg("images/exitbutton.png", g_screen, 0, 255, 255);
+    list_menu[3].LoadImg("images/playbutton1.png", g_screen, 0, 255, 255);
+    list_menu[4].LoadImg("images/replaybutton1.png", g_screen, 0, 255, 255);
+    list_menu[5].LoadImg("images/exitbutton1.png", g_screen, 0, 255, 255);
 
     list_menu[0].SetRect(355, 300);
     list_menu[1].SetRect(355, 300);
@@ -247,9 +244,6 @@ std::vector<ChickenObject*> MakeChickenList() {
                 p_chicken->set_clip();
                 p_chicken->SetRect(rand() % (SCREEN_WIDTH - 100), rand() % 80);
 
-
-
-
                 p_chicken->SetEgg(g_screen, i);
 
                 p_chicken->set_chicken_x_val(1);
@@ -271,9 +265,7 @@ std::vector<ChickenObject*> MakeChickenList() {
                 p_chicken->LoadImgChicken(g_screen);
                 //
                 p_chicken->set_clip();
-                p_chicken->SetRect(tmp1 + 75 * i, tmp);
-
-
+                p_chicken->SetRect(tmp1 + 75 * (i % 5), tmp);
 
                 p_chicken->SetEgg(g_screen, i);
 
@@ -305,11 +297,11 @@ int main(int argc, char* argv[]) {
     }
 
     // load anh chuyen man 1->2
-    round2.LoadImg("images/Untitled.png", g_screen);
+    round2.LoadImg("images/Untitled.png", g_screen, 0, 255, 255);
     round2.SetRect(100, 100);
 
     // load anh chuyen man 2->3
-    round3.LoadImg("images/Untitled1.png", g_screen);
+    round3.LoadImg("images/Untitled1.png", g_screen, 0, 255, 255);
     round3.SetRect(100, 100);
 
     // Load Mạng
@@ -336,7 +328,7 @@ int main(int argc, char* argv[]) {
     exp_threat.set_clip();
 
     // am thanh cho game
-    //Mix_PlayChannel(-1, g_sound_game, 0);
+    Mix_PlayChannel(-1, g_sound_game, 0);
 
     
 
@@ -345,7 +337,7 @@ int main(int argc, char* argv[]) {
     boss->LoadImgBoss(g_screen);
     boss->set_clip();
     boss->SetRect(50, 50);
-    boss->set_boss_x_val(3);
+    boss->set_boss_x_val(6);
     boss->SetEgg(g_screen);
 
     
@@ -376,9 +368,8 @@ int main(int argc, char* argv[]) {
 
 
         // Hiển thị background 
-        //g_background.Render(g_screen, NULL); // Load background
 
-        scrollOffset += 0.5;
+        scrollOffset += 1;
         if (scrollOffset < 0) {
             g_background.Render(g_screen);
             g_background.SetRect(0, scrollOffset);
@@ -414,7 +405,7 @@ int main(int argc, char* argv[]) {
 
         //std::cout << chickens_list.size() << " " << level << std::endl;
 
-        if ((level == 1 && chickens_list.size() < 3) || (level == 2 && chickens_list.size() < 5)) {
+        if ((level == 1 && chickens_list.size() < 3) || (level == 2 && chickens_list.size() < 4)) {
             std::vector<ChickenObject*>  chickens_temp = MakeChickenList();
             for (auto it : chickens_temp) chickens_list.push_back(it);
         }
@@ -517,23 +508,23 @@ int main(int argc, char* argv[]) {
 
                         if (bCol) {
                             point += 100;
-                          
-                            for (int ex = 0; ex < NUM_FRAME_EXP; ex++) {
-                                int x_pos = p_bullet->GetRect().x - 30;
-                                int y_pos = p_bullet->GetRect().y - 30;
-
-                                exp_threat.set_frame(ex);
-                                exp_threat.SetRect(x_pos, y_pos);
-                                exp_threat.Show(g_screen);
-                            }
 
                             // ad gift
-                            if (t % 3 == 0) {
+                            
+                            if (t % 5 == 0) {
                                 GiftObject* gift = new GiftObject();
-                                gift->LoadImgGift(g_screen);
+                                gift->LoadImgGift("images/duiga.png", g_screen);
                                 gift->SetRect(tRect.x, tRect.y + 30);
                                 gift->set_gift_move(true);
                                 gift->set_gift_x_val(4);
+                                gifts_list.push_back(gift);
+                            }
+                            else if (t % 6 == 0) {
+                                GiftObject* gift = new GiftObject();
+                                gift->LoadImgGift("images/gift1.png", g_screen);
+                                gift->SetRect(tRect.x, tRect.y + 30);
+                                gift->set_gift_move(true);
+                                gift->set_gift_x_val(7);
                                 gifts_list.push_back(gift);
                             }
                             
@@ -579,6 +570,7 @@ int main(int argc, char* argv[]) {
 
         // hien menu game over
         if (check_boss_die == true) {
+            
             if (dem3 < 50) ++dem3;
             else {
                 if (MessageBox(NULL, L"WIN GAME", L"Info", MB_OK | MB_ICONINFORMATION) == IDOK) {
@@ -589,7 +581,6 @@ int main(int argc, char* argv[]) {
                 }
                 check_boss_die = false;
             }
-           
         }
 
         if (level == 3) {
@@ -626,7 +617,7 @@ int main(int argc, char* argv[]) {
                         p_player.RemoveBullet(r);
                         ++numberKillBoss;
 
-                        if (numberKillBoss == 25) {
+                        if (numberKillBoss == 60) {
                             while (boss->getSizeEgglist() > 0) {
                                 boss->RemoveEgg(0);
                             }

@@ -11,7 +11,7 @@ ExplosionObject::~ExplosionObject() {
 }
 
 bool ExplosionObject::LoadImg(std::string path, SDL_Renderer* screen) {
-	bool ret = BaseObject::LoadImg(path, screen);
+	bool ret = BaseObject::LoadImg(path, screen, 0, 255, 255);
 	if (ret) {
 		frame_height_ = rect_.h;
 		frame_width_ = rect_.w / NUM_FRAME_EXP;
@@ -21,10 +21,7 @@ bool ExplosionObject::LoadImg(std::string path, SDL_Renderer* screen) {
 }
 
 void ExplosionObject::set_clip() {
-
-    // Thiết lập các clip cho từng frame
     if (frame_width_ > 0 && frame_height_ > 0) {
-        // Thiết lập thông số cho từng frame
         for (int i = 0; i < NUM_FRAME_EXP; i++) {
             frame_clip_[i].x = i * frame_width_;
             frame_clip_[i].y = 0;

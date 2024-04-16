@@ -26,10 +26,6 @@ public:
     void HandelBullet(SDL_Renderer* screen);
    
 
-    // hàm lấy frame tên lửa
-    SDL_Rect GetRectFrame();
-
-
     void set_bullet_list(std::vector<BulletObject*> bullet_list) {
         p_bullet_list_ = bullet_list;
     }
@@ -44,13 +40,13 @@ public:
 
 private:
 
-    std::vector<BulletObject*> p_bullet_list_; // luu vector dan ban
+    std::vector<BulletObject*> p_bullet_list_; 
 
-    int width_frame_; // Kích thước của một frame
+    int width_frame_; 
     int height_frame_;
 
-    float x_pos_; // Vị trí theo chiều ngang trên màn hình
-    float y_pos_; // Vị trí theo chiều dọc trên màn hình
+    float x_pos_; 
+    float y_pos_; 
 
     
 };

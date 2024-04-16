@@ -21,6 +21,6 @@ public:
 private:
 	int frame_width_;
 	int frame_height_;
-	unsigned int frame_;
+	int frame_;
 	SDL_Rect frame_clip_[NUM_FRAME_EXP];
 };

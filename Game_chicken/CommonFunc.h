@@ -14,12 +14,6 @@ static SDL_Window* g_window = NULL;
 static SDL_Renderer* g_screen = NULL;
 static SDL_Event g_event;
 
-
-// Màu RGB được sử dụng để xác định màu chính (color key)
-const int COLOR_KEY_R = 0;
-const int COLOR_KEY_G = 255;
-const int COLOR_KEY_B = 255;
-
 // Thông số màn hình
 const int SCREEN_WIDTH = 860;
 const int SCREEN_HEIGHT = 640;

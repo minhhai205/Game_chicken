@@ -36,31 +36,16 @@ SDL_Rect BossObject::GetRectFrame() {
 }
 
 void BossObject::LoadImgBoss(SDL_Renderer* screen) {
-
-	std::string path = "images/boss.png";
-	SDL_Texture* new_texture = NULL;
-	SDL_Surface* load_surface = IMG_Load(path.c_str());
-	if (load_surface != NULL) {
-		SDL_SetColorKey(load_surface, SDL_TRUE, SDL_MapRGB(load_surface->format, 170, 170, 170));
-		new_texture = SDL_CreateTextureFromSurface(screen, load_surface);
-		if (new_texture != NULL) {
-			rect_.w = load_surface->w;
-			rect_.h = load_surface->h;
-		}
-		SDL_FreeSurface(load_surface);
-	}
-	p_object_ = new_texture;
-
+	
+	LoadImg("images/boss.png", screen, 170, 170, 170);
 	boss_height_ = rect_.h;
 	boss_width_ = rect_.w / NUM_FRAME_BOSS;
 
-
-	//
 	EggObject* egg = new EggObject();
 
 	egg->LoadImgEgg(screen);
 	egg->SetRect(this->rect_.x + 120, rect_.y + 120);
-	egg->set_egg_x_val(4);
+	egg->set_egg_x_val(7);
 	egg->set_egg_move(true);
 
 	egg_list.push_back(egg);
@@ -102,7 +87,7 @@ void BossObject::SetEgg(SDL_Renderer* screen) {
 	EggObject* egg = new EggObject();
 	egg->LoadImgEgg(screen);
 	egg->SetRect(this->rect_.x + 90, rect_.y + 90);
-	egg->set_egg_x_val(4);
+	egg->set_egg_x_val(7);
 	egg->set_egg_move(true);
 
 	if (egg_list.size() > 0) {

@@ -16,19 +16,6 @@ ChickenObject::~ChickenObject() {
 void ChickenObject::HandelChickenMove(const int& x_boder, const int& y_boder) {
 
 	rect_.y += chicken_x_val_;
-	//rect_.x += 1;
-	//rect_.y += 1;
-	/*if (check == true) {
-		rect_.x += 2;
-		rect_.y += 2;
-		if (rect_.x + chicken_width_ >= SCREEN_WIDTH) check = false;
-	}
-	else if (check == false) {
-		rect_.x -= 2;
-		rect_.y += 2;
-		if (rect_.x <= 0) check = true;
-	}
-	*/
 	if (rect_.y > y_boder) chicken_move_ = false;
 }
 
@@ -44,20 +31,8 @@ SDL_Rect ChickenObject::GetRectFrame() {
 
 void ChickenObject::LoadImgChicken(SDL_Renderer* screen) {
 	
-	std::string path = "images//chicken.png";
-	SDL_Texture* new_texture = NULL;
-	SDL_Surface* load_surface = IMG_Load(path.c_str());
-	if (load_surface != NULL) {
-		SDL_SetColorKey(load_surface, SDL_TRUE, SDL_MapRGB(load_surface->format, 170, 170, 170));
-		new_texture = SDL_CreateTextureFromSurface(screen, load_surface);
-		if (new_texture != NULL) {
-			rect_.w = load_surface->w;
-			rect_.h = load_surface->h;
-		}
-		SDL_FreeSurface(load_surface);
-	}
-	p_object_ = new_texture;
-	
+	LoadImg("images//chicken.png", screen, 170, 170, 170);
+
 	chicken_height_ = rect_.h;
 	chicken_width_ = rect_.w / NUM_FRAME_CHICKEN;
 

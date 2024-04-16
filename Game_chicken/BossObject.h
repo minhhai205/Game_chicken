@@ -42,7 +42,7 @@ private:
 	std::vector<EggObject*> egg_list;
 	
 	SDL_Rect frame_clip_[NUM_FRAME_BOSS];
-	unsigned int frame_;
+	int frame_;
 	int boss_width_;
 	int boss_height_;
 	float boss_x_val_;

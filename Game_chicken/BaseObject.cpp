@@ -12,44 +12,33 @@ BaseObject::BaseObject() {
 
 
 BaseObject::~BaseObject() {
-    Free(); // Gọi hàm Free để giải phóng bộ nhớ trước khi hủy đối tượng
+    Free(); 
 }
 
 // Load ảnh từ đường dẫn lên màn hình
-bool BaseObject::LoadImg(std::string path, SDL_Renderer* screen) {
+bool BaseObject::LoadImg(std::string path, SDL_Renderer* screen, int R, int G, int B) {
     SDL_Texture* new_texture = NULL;
 
-    // Load surface từ đường dẫn
     SDL_Surface* load_surface = IMG_Load(path.c_str());
     if (load_surface != NULL) {
-
-        // Xóa màu nền của ảnh để làm màu nền trong suốt
-        SDL_SetColorKey(load_surface, SDL_TRUE, SDL_MapRGB(load_surface->format, COLOR_KEY_R, COLOR_KEY_G, COLOR_KEY_B));
-
-        // Tạo texture từ surface và gán cho new_texture
+        SDL_SetColorKey(load_surface, SDL_TRUE, SDL_MapRGB(load_surface->format, R, G, B));
         new_texture = SDL_CreateTextureFromSurface(screen, load_surface);
 
-        // Lưu kích thước của đối tượng
         if (new_texture != NULL) {
             rect_.w = load_surface->w;
             rect_.h = load_surface->h;
         }
 
-        // Giải phóng surface sau khi đã tạo texture
         SDL_FreeSurface(load_surface);
     }
 
-    // Gán texture mới cho p_object_ và kiểm tra
     p_object_ = new_texture;
     return p_object_ != NULL;
 }
 
 // Render đối tượng lên màn hình
 void BaseObject::Render(SDL_Renderer* des, const SDL_Rect* clip) {
-    // Vị trí và kích thước của ảnh trên màn hình
     SDL_Rect renderquad = { rect_.x, rect_.y, rect_.w, rect_.h };
-
-    // Đưa toàn bộ thông số lên renderer
     SDL_RenderCopy(des, p_object_, clip, &renderquad);
 }
 
