@@ -412,8 +412,6 @@ int main(int argc, char* argv[]) {
         }
 
 
-
-
         if (level == 2 && dem1 < 100) {
             round2.Render(g_screen, NULL);
             ++dem1;
@@ -588,8 +586,8 @@ int main(int argc, char* argv[]) {
 
             boss->set_boss_val();
             boss->ShowBoss(g_screen);
-            //boss->SetEgg(g_screen);
-            //boss->ShowEgg(g_screen);
+            boss->SetEgg(g_screen);
+            boss->ShowEgg(g_screen);
 
             
             SDL_Rect bossRect = boss->GetRectFrame();
