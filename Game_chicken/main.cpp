@@ -430,9 +430,9 @@ int main(int argc, char* argv[]) {
                 if (p_chicken->get_chicken_move() == true) {
                     p_chicken->HandelChickenMove(SCREEN_WIDTH, SCREEN_HEIGHT);
                    
-                    p_chicken->ShowChicken(g_screen);
+                    //p_chicken->ShowChicken(g_screen);
 
-                    p_chicken->ShowEgg(g_screen);
+                   // p_chicken->ShowEgg(g_screen);
 
                     //check va chạm giữa tên lửa với vật cản
                     SDL_Rect rect_player = p_player.GetRect();
