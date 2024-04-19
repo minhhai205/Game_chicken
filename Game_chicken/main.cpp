@@ -24,7 +24,7 @@ bool InitData() {
     bool check = true;
     int ret = SDL_Init(SDL_INIT_VIDEO);
     int ret1 = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-
+ 
     if (ret < 0 && ret1 < 0) return false;
 
     // Thiết lập cấu hình chất lượng render
@@ -368,6 +368,7 @@ int main(int argc, char* argv[]) {
 
 
         // Hiển thị background 
+        g_background.Render(g_screen);
 
         scrollOffset += 1;
         if (scrollOffset < 0) {
@@ -387,8 +388,8 @@ int main(int argc, char* argv[]) {
         // Hiển thị player
         p_player.Show(g_screen);
 
-        // thêm gà khi chết
-
+        
+        
         if (numberChickenLevel1 > 15 && chickens_list.size() == 0) {
             level = 2;
             numberChickenLevel1 = 0;
@@ -422,7 +423,7 @@ int main(int argc, char* argv[]) {
             ++dem2;
         }
 
-
+        
         //std::cout << "dang chay vong lap while\n";
         // Load chicken
         for (int i = 0; i < chickens_list.size(); i++) {
@@ -492,7 +493,7 @@ int main(int argc, char* argv[]) {
                 }
             }
         }
-
+        
 
         // xử lí va chạm cho game
         std::vector<BulletObject*> bullet_arr = p_player.get_bullet_list();
@@ -587,8 +588,8 @@ int main(int argc, char* argv[]) {
 
             boss->set_boss_val();
             boss->ShowBoss(g_screen);
-            boss->SetEgg(g_screen);
-            boss->ShowEgg(g_screen);
+            //boss->SetEgg(g_screen);
+            //boss->ShowEgg(g_screen);
 
             
             SDL_Rect bossRect = boss->GetRectFrame();
