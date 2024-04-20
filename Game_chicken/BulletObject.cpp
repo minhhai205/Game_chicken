@@ -22,7 +22,8 @@ void BulletObject::LoadImgBullet(SDL_Renderer* screen) {
 
 
 void BulletObject::HandleMove(const int& x_boder, const int& y_boder) {
-	rect_.y -= x_val_;
+	rect_.y -= y_val_;
+	rect_.x += x_val_;
 	if (rect_.y < 0) is_move_ = false;
 }
 

@@ -34,27 +34,36 @@ void RocketObject::Show(SDL_Renderer* des) {
     SDL_RenderCopy(des, p_object_, NULL, &renderQuad);
 }
 
-void RocketObject::HandelInput(SDL_Event events, SDL_Renderer* screen) {
+void RocketObject::HandelInput(SDL_Event events, SDL_Renderer* screen, int level) {
     
     if (events.type == SDL_MOUSEBUTTONDOWN) {
-        BulletObject* p_bullet = new BulletObject();
 
-        if (events.button.button == SDL_BUTTON_RIGHT) {
-             p_bullet->set_bullet_type(BulletObject::FIRE_BULLET);
-             p_bullet->LoadImgBullet(screen);
-             p_bullet->SetRect(this->rect_.x + 12, rect_.y - 45);
-             p_bullet->set_x_val(10);
-             p_bullet->set_is_move(true);
-             p_bullet_list_.push_back(p_bullet);
-        }
+        if (events.button.button == SDL_BUTTON_LEFT) {
+            if (level == 2) {
+                for (int i = 1; i <= 3; i++) {
+                    BulletObject* p_bullet = new BulletObject();
 
-        else if (events.button.button == SDL_BUTTON_LEFT) {
-            p_bullet->set_bullet_type(BulletObject::RED_BULLET);
-            p_bullet->LoadImgBullet(screen);
-            p_bullet->SetRect(this->rect_.x + 16, rect_.y - 15);
-            p_bullet->set_x_val(10);
-            p_bullet->set_is_move(true);
-            p_bullet_list_.push_back(p_bullet);
+                    p_bullet->set_bullet_type(BulletObject::RED_BULLET);
+                    p_bullet->LoadImgBullet(screen);
+                    p_bullet->SetRect(this->rect_.x + 15, rect_.y -10);
+                    
+                    p_bullet->set_y_val(10);
+                    if (i == 2) p_bullet->set_x_val(-2);
+                    else if (i == 3) p_bullet->set_x_val(2);
+                    p_bullet->set_is_move(true);
+                    p_bullet_list_.push_back(p_bullet);
+                }
+            }
+            else {
+                BulletObject* p_bullet = new BulletObject();
+
+                p_bullet->set_bullet_type(BulletObject::FIRE_BULLET);
+                p_bullet->LoadImgBullet(screen);
+                p_bullet->SetRect(this->rect_.x + 12, rect_.y -30);
+                p_bullet->set_y_val(10);
+                p_bullet->set_is_move(true);
+                p_bullet_list_.push_back(p_bullet);
+            }
         }
     }
 }

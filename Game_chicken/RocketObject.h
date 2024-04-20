@@ -20,7 +20,7 @@ public:
     void Show(SDL_Renderer* des);
 
     // Hàm xử lý sự kiện khi bấm nút
-    void HandelInput(SDL_Event events, SDL_Renderer* screen);
+    void HandelInput(SDL_Event events, SDL_Renderer* screen, int level);
 
     // Hàm xử lí đạn bắn
     void HandelBullet(SDL_Renderer* screen);

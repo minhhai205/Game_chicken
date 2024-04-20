@@ -230,17 +230,13 @@ void ResetGame() {
 
 
 
-std::vector<ChickenObject*> MakeChickenList() {
-    std::vector<ChickenObject*> list_chickens;
-    
+void MakeChickenList() {
     if (level == 1) {
-        ChickenObject* chickens_objs = new ChickenObject[3];
         srand(time(NULL)); // co the random tu 1 toi 3
         for (int i = 0; i < 3; i++) {
-            ChickenObject* p_chicken = (chickens_objs + i);
+            ChickenObject* p_chicken = new ChickenObject();
             if (p_chicken != NULL) {
                 p_chicken->LoadImgChicken(g_screen);
-                //
                 p_chicken->set_clip();
                 p_chicken->SetRect(rand() % (SCREEN_WIDTH - 100), rand() % 80);
 
@@ -248,22 +244,20 @@ std::vector<ChickenObject*> MakeChickenList() {
 
                 p_chicken->set_chicken_x_val(1);
                 p_chicken->set_chicken_move(true);
-                list_chickens.push_back(p_chicken);
+                chickens_list.push_back(p_chicken);
                 ++numberChickenLevel1;
             }
         }
     }
 
     else if (level == 2) {
-        ChickenObject* chickens_objs = new ChickenObject[5];
         srand(time(NULL));
         int tmp = rand() % 100 + 1;
         int tmp1 = rand() % 450 + 1;
         for (int i = 0; i < 5; i++) {
-            ChickenObject* p_chicken = (chickens_objs + i);
+            ChickenObject* p_chicken = new ChickenObject();
             if (p_chicken != NULL) {
                 p_chicken->LoadImgChicken(g_screen);
-                //
                 p_chicken->set_clip();
                 p_chicken->SetRect(tmp1 + 75 * (i % 5), tmp);
 
@@ -271,13 +265,12 @@ std::vector<ChickenObject*> MakeChickenList() {
 
                 p_chicken->set_chicken_x_val(1);
                 p_chicken->set_chicken_move(true);
-                list_chickens.push_back(p_chicken);
+                chickens_list.push_back(p_chicken);
                 ++numberChickenLevel2;
             }
         }
     }
   
-    return list_chickens;
 }
 
 
@@ -297,12 +290,12 @@ int main(int argc, char* argv[]) {
     }
 
     // load anh chuyen man 1->2
-    round2.LoadImg("images/Untitled.png", g_screen, 0, 255, 255);
-    round2.SetRect(100, 100);
+    //round2.LoadImg("images/Untitled.png", g_screen, 0, 255, 255);
+    //round2.SetRect(100, 100);
 
     // load anh chuyen man 2->3
-    round3.LoadImg("images/Untitled1.png", g_screen, 0, 255, 255);
-    round3.SetRect(100, 100);
+    //round3.LoadImg("images/Untitled1.png", g_screen, 0, 255, 255);
+    //round3.SetRect(100, 100);
 
     // Load Mạng
     HealthPlayer player_power;
@@ -315,7 +308,7 @@ int main(int argc, char* argv[]) {
     p_player.LoadImg("images/rocket.png", g_screen);
 
     //Load chicken
-    chickens_list = MakeChickenList();
+    MakeChickenList();
 
 
     // tạo hình ảnh vụ nổ
@@ -359,7 +352,7 @@ int main(int argc, char* argv[]) {
             if (g_event.type == SDL_QUIT) {
                 quit = true;
             }
-            p_player.HandelInput(g_event, g_screen);
+            p_player.HandelInput(g_event, g_screen, level);
         }
 
         // Xóa màn hình
@@ -404,11 +397,9 @@ int main(int argc, char* argv[]) {
             level = 0;
         }
 
-        //std::cout << chickens_list.size() << " " << level << std::endl;
 
         if ((level == 1 && chickens_list.size() < 3) || (level == 2 && chickens_list.size() < 4)) {
-            std::vector<ChickenObject*>  chickens_temp = MakeChickenList();
-            for (auto it : chickens_temp) chickens_list.push_back(it);
+            MakeChickenList();
         }
 
 
@@ -430,9 +421,9 @@ int main(int argc, char* argv[]) {
                 if (p_chicken->get_chicken_move() == true) {
                     p_chicken->HandelChickenMove(SCREEN_WIDTH, SCREEN_HEIGHT);
                    
-                    //p_chicken->ShowChicken(g_screen);
+                    p_chicken->ShowChicken(g_screen);
 
-                   // p_chicken->ShowEgg(g_screen);
+                    p_chicken->ShowEgg(g_screen);
 
                     //check va chạm giữa tên lửa với vật cản
                     SDL_Rect rect_player = p_player.GetRect();
@@ -471,7 +462,7 @@ int main(int argc, char* argv[]) {
                         }
 
                         else {
-                            if (MessageBox(NULL, L"GAMEOVER", L"Info", MB_OK | MB_ICONSTOP) == IDOK) {
+                            if (MessageBox(NULL, L"GAMEOVER", L"GAMEOVER", MB_OK | MB_ICONSTOP) == IDOK) {
                                 p_chicken->Free();
                                 type_menu = 1;
                                 ResetGame();
@@ -508,7 +499,7 @@ int main(int argc, char* argv[]) {
                         if (bCol) {
                             point += 100;
 
-                            // ad gift
+                            // add gift
                             
                             if (t % 5 == 0) {
                                 GiftObject* gift = new GiftObject();
@@ -518,7 +509,7 @@ int main(int argc, char* argv[]) {
                                 gift->set_gift_x_val(4);
                                 gifts_list.push_back(gift);
                             }
-                            else if (t % 6 == 0) {
+                            else if(t == 3) {
                                 GiftObject* gift = new GiftObject();
                                 gift->LoadImgGift("images/gift1.png", g_screen);
                                 gift->SetRect(tRect.x, tRect.y + 30);
@@ -541,8 +532,7 @@ int main(int argc, char* argv[]) {
                 }
             }
         }
-        //std::cout << gifts_list.size() << std::endl;
-        
+
         for (int k = 0; k < gifts_list.size(); k++) {
             GiftObject* gift = gifts_list.at(k);
             if (gift != NULL) {
@@ -572,7 +562,7 @@ int main(int argc, char* argv[]) {
             
             if (dem3 < 50) ++dem3;
             else {
-                if (MessageBox(NULL, L"WIN GAME", L"Info", MB_OK | MB_ICONINFORMATION) == IDOK) {
+                if (MessageBox(NULL, L"WIN GAME", L"WIN GAME", MB_OK | MB_ICONINFORMATION) == IDOK) {
                     type_menu = 1;
                     player_power.ResetHealth();
                     ShowMenu(g_screen, text_font);
@@ -660,6 +650,8 @@ int main(int argc, char* argv[]) {
 
                 }
 
+
+
                 Mix_PlayChannel(-1, g_sound_player_die, 0);
 
                 ++die_number;
@@ -670,7 +662,7 @@ int main(int argc, char* argv[]) {
                 }
 
                 else {
-                    if (MessageBox(NULL, L"GAMEOVER", L"Info", MB_OK | MB_ICONSTOP) == IDOK) {
+                    if (MessageBox(NULL, L"GAMEOVER", L"GAMEOVER", MB_OK | MB_ICONSTOP) == IDOK) {
                         type_menu = 1;
                         ResetGame();
                         player_power.ResetHealth();
@@ -686,10 +678,11 @@ int main(int argc, char* argv[]) {
 
 
         // hien point
-        point_game.SetText("Point: " + std::to_string(point));
+        
+        /*point_game.SetText("Point: " + std::to_string(point));
         point_game.LoadFromRenderText(text_font, g_screen);
-        point_game.RenderText(g_screen, 120, 5);
-
+        point_game.RenderText(g_screen, 120, 5);*/
+        
         // Hiển thị màn hình
         SDL_RenderPresent(g_screen);
 

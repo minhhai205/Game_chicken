@@ -8,7 +8,7 @@ Text::Text() {
     texture = NULL;
 }
 Text::~Text() {
-
+    SDL_DestroyTexture(texture);
 }
 
 
