@@ -403,14 +403,14 @@ int main(int argc, char* argv[]) {
         }
 
 
-       /* if (level == 2 && dem1 < 100) {
+        if (level == 2 && dem1 < 100) {
             round2.Render(g_screen, NULL);
             ++dem1;
         }
         if (level == 3 && dem2 < 100) {
             round3.Render(g_screen, NULL);
             ++dem2;
-        }*/
+        }
 
         
         //std::cout << "dang chay vong lap while\n";
