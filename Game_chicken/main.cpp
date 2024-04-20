@@ -679,9 +679,9 @@ int main(int argc, char* argv[]) {
 
         // hien point
         
-        /*point_game.SetText("Point: " + std::to_string(point));
+        point_game.SetText("Point: " + std::to_string(point));
         point_game.LoadFromRenderText(text_font, g_screen);
-        point_game.RenderText(g_screen, 120, 5);*/
+        point_game.RenderText(g_screen, 120, 5);
         
         // Hiển thị màn hình
         SDL_RenderPresent(g_screen);
