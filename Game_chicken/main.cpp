@@ -290,12 +290,12 @@ int main(int argc, char* argv[]) {
     }
 
     // load anh chuyen man 1->2
-    //round2.LoadImg("images/Untitled.png", g_screen, 0, 255, 255);
-    //round2.SetRect(100, 100);
+    round2.LoadImg("images/Untitled.png", g_screen, 0, 255, 255);
+    round2.SetRect(100, 100);
 
     // load anh chuyen man 2->3
-    //round3.LoadImg("images/Untitled1.png", g_screen, 0, 255, 255);
-    //round3.SetRect(100, 100);
+    round3.LoadImg("images/Untitled1.png", g_screen, 0, 255, 255);
+    round3.SetRect(100, 100);
 
     // Load Mạng
     HealthPlayer player_power;
@@ -388,12 +388,12 @@ int main(int argc, char* argv[]) {
             numberChickenLevel1 = 0;
         }
 
-        if (numberChickenLevel2 > 45 && chickens_list.size() == 0) {
+        if (numberChickenLevel2 >100 && chickens_list.size() == 0) {
             level = 3;
             numberChickenLevel2 = 0;
         }
 
-        else if (numberChickenLevel2 > 45 || numberChickenLevel1 > 15) {
+        else if (numberChickenLevel2 > 100 || numberChickenLevel1 > 15) {
             level = 0;
         }
 
@@ -403,14 +403,14 @@ int main(int argc, char* argv[]) {
         }
 
 
-        if (level == 2 && dem1 < 100) {
+       /* if (level == 2 && dem1 < 100) {
             round2.Render(g_screen, NULL);
             ++dem1;
         }
         if (level == 3 && dem2 < 100) {
             round3.Render(g_screen, NULL);
             ++dem2;
-        }
+        }*/
 
         
         //std::cout << "dang chay vong lap while\n";
@@ -579,7 +579,7 @@ int main(int argc, char* argv[]) {
             boss->SetEgg(g_screen);
             boss->ShowEgg(g_screen);
 
-            
+            //
             SDL_Rect bossRect = boss->GetRectFrame();
             std::vector<EggObject*> listEgg = boss->getEggList();
             // check ban trung boss

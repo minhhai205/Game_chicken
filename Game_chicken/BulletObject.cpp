@@ -3,7 +3,7 @@
 BulletObject::BulletObject() {
 	x_val_ = 0;
 	y_val_ = 0;
-	bullet_type_ = RED_BULLET;
+	bullet_type_ = BLUE_BULLET;
 	is_move_ = false;
 }
 BulletObject::~BulletObject() {
@@ -11,7 +11,7 @@ BulletObject::~BulletObject() {
 }
 
 void BulletObject::LoadImgBullet(SDL_Renderer* screen) {
-	if (bullet_type_ == RED_BULLET) {
+	if (bullet_type_ == BLUE_BULLET) {
 		LoadImg("images/sphere.png", screen, 0, 255, 255);
 	}
 

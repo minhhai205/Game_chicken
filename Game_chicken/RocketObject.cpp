@@ -43,13 +43,14 @@ void RocketObject::HandelInput(SDL_Event events, SDL_Renderer* screen, int level
                 for (int i = 1; i <= 3; i++) {
                     BulletObject* p_bullet = new BulletObject();
 
-                    p_bullet->set_bullet_type(BulletObject::RED_BULLET);
+                    p_bullet->set_bullet_type(BulletObject::BLUE_BULLET);
                     p_bullet->LoadImgBullet(screen);
-                    p_bullet->SetRect(this->rect_.x + 15, rect_.y -10);
+                    p_bullet->SetRect(this->rect_.x + 5, rect_.y -20);
                     
                     p_bullet->set_y_val(10);
                     if (i == 2) p_bullet->set_x_val(-2);
                     else if (i == 3) p_bullet->set_x_val(2);
+
                     p_bullet->set_is_move(true);
                     p_bullet_list_.push_back(p_bullet);
                 }

@@ -8,6 +8,7 @@ BossObject::BossObject() {
 	check = true;
 	frame_ = 0;
 
+	cnt = 0;
 }
 BossObject::~BossObject() {
 
@@ -53,9 +54,7 @@ void BossObject::LoadImgBoss(SDL_Renderer* screen) {
 }
 
 void BossObject::set_clip() {
-	// Thiết lập các clip cho từng frame
 	if (boss_width_ > 0 && boss_height_ > 0) {
-		// Thiết lập thông số cho từng frame
 		for (int i = 0; i < NUM_FRAME_BOSS; i++) {
 			frame_clip_[i].x = i * boss_width_;
 			frame_clip_[i].y = 0;
@@ -81,24 +80,27 @@ void BossObject::ShowBoss(SDL_Renderer* screen) {
 	SDL_RenderCopy(screen, p_object_, current_clip, &render_quad);
 }
 
-
-
-void BossObject::SetEgg(SDL_Renderer* screen) {
+EggObject* BossObject::BuildEgg(SDL_Renderer* screen) {
 	EggObject* egg = new EggObject();
 	egg->LoadImgEgg(screen);
-	egg->SetRect(this->rect_.x + 90, rect_.y + 90);
+	egg->SetRect(rect_.x + 90, rect_.y + 90);
 	egg->set_egg_x_val(7);
 	egg->set_egg_move(true);
+	return egg;
+}
+
+void BossObject::SetEgg(SDL_Renderer* screen) {
 
 	if (egg_list.size() > 0) {
 		EggObject* egglast = egg_list.back();
 		SDL_Rect eRect = egglast->GetRect();
 		if (eRect.y > 250) {
-			egg_list.push_back(egg);
-
+			egg_list.push_back(BuildEgg(screen));
 		}
 	}
-	else egg_list.push_back(egg);
+	else {
+		egg_list.push_back(BuildEgg(screen));
+	}
 	
 }
 

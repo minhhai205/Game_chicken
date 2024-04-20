@@ -8,7 +8,7 @@ public:
 	~BulletObject();
 
 	enum BulletType {
-		RED_BULLET = 10,
+		BLUE_BULLET = 10,
 		FIRE_BULLET = 11,
 	};
 
