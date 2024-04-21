@@ -45,8 +45,6 @@ private:
 	int boss_height_;
 	float boss_x_val_;
 	float boss_y_val_;
-	bool check;
-
-	int cnt;
+	bool check_x, check_y;
 
 };

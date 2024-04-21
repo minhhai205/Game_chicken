@@ -5,25 +5,32 @@ BossObject::BossObject() {
 	boss_y_val_ = 0;
 	boss_width_ = 0;
 	boss_height_ = 0;
-	check = true;
+	check_x = true;
+	check_y = true;
 	frame_ = 0;
-
-	cnt = 0;
 }
 BossObject::~BossObject() {
 
 }
 
 void BossObject::set_boss_val(){
-	if (check == true) {
+	if (check_x == true) {
 		rect_.x += boss_x_val_;
-		if (rect_.x + boss_width_ >= SCREEN_WIDTH) check = false;
+		if (rect_.x + boss_width_ >= SCREEN_WIDTH) check_x = false;
 	}
-	else if (check == false) {
+	else if (check_x == false) {
 		rect_.x -= boss_x_val_;
-		if (rect_.x <= 0) check = true;
+		if (rect_.x <= 0) check_x = true;
 	}
-	
+
+	if (check_y == true) {
+		rect_.y += boss_y_val_;
+		if (rect_.y > 200) check_y = false;
+	}
+	else if (check_y == false) {
+		rect_.y -= boss_y_val_;
+		if (rect_.y <= 10) check_y = true;
+	}
 }
 
 SDL_Rect BossObject::GetRectFrame() {
@@ -84,7 +91,7 @@ EggObject* BossObject::BuildEgg(SDL_Renderer* screen) {
 	EggObject* egg = new EggObject();
 	egg->LoadImgEgg(screen);
 	egg->SetRect(rect_.x + 90, rect_.y + 90);
-	egg->set_egg_x_val(7);
+	egg->set_egg_x_val(10);
 	egg->set_egg_move(true);
 	return egg;
 }
@@ -94,7 +101,7 @@ void BossObject::SetEgg(SDL_Renderer* screen) {
 	if (egg_list.size() > 0) {
 		EggObject* egglast = egg_list.back();
 		SDL_Rect eRect = egglast->GetRect();
-		if (eRect.y > 250) {
+		if (eRect.y > 380) {
 			egg_list.push_back(BuildEgg(screen));
 		}
 	}

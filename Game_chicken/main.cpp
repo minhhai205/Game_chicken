@@ -329,8 +329,9 @@ int main(int argc, char* argv[]) {
     BossObject* boss = new BossObject();
     boss->LoadImgBoss(g_screen);
     boss->set_clip();
-    boss->SetRect(50, 50);
-    boss->set_boss_x_val(6);
+    boss->SetRect(30, 10);
+    boss->set_boss_x_val(8);
+    boss->set_boss_y_val(3);
     boss->SetEgg(g_screen);
 
     
@@ -613,6 +614,7 @@ int main(int argc, char* argv[]) {
                             
                             level = 0;
                             check_boss_die = true;
+                            point += 2000;
                             Mix_PlayChannel(-1, g_sound_player_die, 0);
                         }
                     }
@@ -682,6 +684,7 @@ int main(int argc, char* argv[]) {
         point_game.SetText("Point: " + std::to_string(point));
         point_game.LoadFromRenderText(text_font, g_screen);
         point_game.RenderText(g_screen, 120, 5);
+        point_game.Free();
         
         // Hiển thị màn hình
         SDL_RenderPresent(g_screen);
