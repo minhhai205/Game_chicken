@@ -106,6 +106,7 @@ void close() {
 
 std::vector<ChickenObject*> chickens_list;
 std::vector<GiftObject*> gifts_list;
+ExplosionObject exp_threat;
 int level = 1;
 int numberChickenLevel1 = 0;
 int numberChickenLevel2 = 0;
@@ -273,6 +274,22 @@ void MakeChickenList() {
   
 }
 
+void SetGift(int x, int y, int val, std::string path) {
+    GiftObject* gift = new GiftObject();
+    gift->LoadImgGift(path.substr(), g_screen);
+    gift->SetRect(x, y + 30);
+    gift->set_gift_move(true);
+    gift->set_gift_x_val(val);
+    gifts_list.push_back(gift);
+}
+
+void SetExp(int x_pos, int y_pos) {
+    for (int ex = 0; ex < NUM_FRAME_EXP; ex++) {
+        exp_threat.set_frame(ex);
+        exp_threat.SetRect(x_pos, y_pos);
+        exp_threat.Show(g_screen);
+    }
+}
 
 int main(int argc, char* argv[]) {
     Timer fps_timer;
@@ -312,8 +329,6 @@ int main(int argc, char* argv[]) {
 
 
     // tạo hình ảnh vụ nổ
-
-    ExplosionObject exp_threat;
     bool tRet = exp_threat.LoadImg("images/exp_main.png", g_screen);
     if (!tRet) {
         return -1;
@@ -438,16 +453,7 @@ int main(int argc, char* argv[]) {
                     bool bCol2 = SDLCommonFunc::CheckCollision(rect_player, rect_chicken);
 
                     if (bCol1 || bCol2) {
-
-                        for (int ex = 0; ex < NUM_FRAME_EXP; ex++) {
-                            int x_pos = p_player.GetRect().x - 30;
-                            int y_pos = p_player.GetRect().y - 30;
-                            
-                            exp_threat.set_frame(ex);
-                            exp_threat.SetRect(x_pos, y_pos);
-                            exp_threat.Show(g_screen);
-
-                        }
+                        SetExp(p_player.GetRect().x - 30, p_player.GetRect().y - 30);
 
                         Mix_PlayChannel(-1, g_sound_player_die, 0);
 
@@ -499,35 +505,18 @@ int main(int argc, char* argv[]) {
 
                         if (bCol) {
                             point += 100;
-
-                            // add gift
-                            
                             if (t % 5 == 0) {
-                                GiftObject* gift = new GiftObject();
-                                gift->LoadImgGift("images/duiga.png", g_screen);
-                                gift->SetRect(tRect.x, tRect.y + 30);
-                                gift->set_gift_move(true);
-                                gift->set_gift_x_val(4);
-                                gifts_list.push_back(gift);
+                                SetGift(tRect.x, tRect.y + 30, 4, "images/duiga.png");
                             }
                             else if(t == 3) {
-                                GiftObject* gift = new GiftObject();
-                                gift->LoadImgGift("images/gift1.png", g_screen);
-                                gift->SetRect(tRect.x, tRect.y + 30);
-                                gift->set_gift_move(true);
-                                gift->set_gift_x_val(7);
-                                gifts_list.push_back(gift);
+                                SetGift(tRect.x, tRect.y + 30, 7, "images/gift1.png");
                             }
                             
-
                             Mix_PlayChannel(-1, g_sound_chicken_hit, 0);
 
                             p_player.RemoveBullet(r);
                             obj_chicken->Free();
                             chickens_list.erase(chickens_list.begin() + t);
-
-
-                            
                         }
                     }
                 }
@@ -546,13 +535,9 @@ int main(int argc, char* argv[]) {
 
                     if (bCol) {
                         point += 50;
-
                         Mix_PlayChannel(-1, g_sound_eat_chicken, 0);
                         gift->Free();
                         gifts_list.erase(gifts_list.begin() + k);
-
-
-
                     }
                 }
             }
@@ -592,15 +577,8 @@ int main(int argc, char* argv[]) {
                     bool b_Col = SDLCommonFunc::CheckCollision(bulletRect, bossRect);
 
                     if (b_Col) {
-                        for (int ex = 0; ex < NUM_FRAME_EXP; ex++) {
-                            int x_pos = p_bullet->GetRect().x - 30;
-                            int y_pos = p_bullet->GetRect().y - 30;
-
-                            exp_threat.set_frame(ex);
-                            exp_threat.SetRect(x_pos, y_pos);
-                            exp_threat.Show(g_screen);
-                        }
-
+                        
+                        SetExp(p_bullet->GetRect().x - 30, p_bullet->GetRect().y - 30);
 
                         Mix_PlayChannel(-1, g_sound_chicken_die, 0);
 
@@ -641,18 +619,7 @@ int main(int argc, char* argv[]) {
             bool b_Col2 = SDLCommonFunc::CheckCollision(rect_player, bossRect);
 
             if (b_Col1 == true || b_Col2 == true) {
-                
-                for (int ex = 0; ex < NUM_FRAME_EXP; ex++) {
-                    int x_pos = p_player.GetRect().x - 30;
-                    int y_pos = p_player.GetRect().y - 30;
-                    
-                    exp_threat.set_frame(ex);
-                    exp_threat.SetRect(x_pos, y_pos);
-                    exp_threat.Show(g_screen);
-
-                }
-
-
+                SetExp(p_player.GetRect().x - 30, p_player.GetRect().y - 30);
 
                 Mix_PlayChannel(-1, g_sound_player_die, 0);
 
