@@ -130,7 +130,7 @@ bool check_mouse_vs_item(const int& x, const int& y, const SDL_Rect& rect) {
     return false;
 }
 
-void ShowMenu(SDL_Renderer* screen, TTF_Font* font) {
+void ShowMenu() {
     BaseObject menu;
     if (!menu.LoadImg("images/menu.jpg", g_screen, 0, 0, 0)){
         quit = true;
@@ -204,7 +204,7 @@ void ShowMenu(SDL_Renderer* screen, TTF_Font* font) {
             
         }
         
-
+        SDL_Delay(10);
 
         SDL_RenderPresent(g_screen);
     }
@@ -336,7 +336,7 @@ int main(int argc, char* argv[]) {
     exp_threat.set_clip();
 
     // am thanh cho game
-    Mix_PlayChannel(-1, g_sound_game, 0);
+    Mix_PlayChannel(-1, g_sound_game, 2);
 
     
 
@@ -354,9 +354,11 @@ int main(int argc, char* argv[]) {
     Text point_game;
     point_game.SetColor(Text::WHITE);
 
-    ShowMenu(g_screen, text_font);
+    ShowMenu();
 
-
+    Mix_VolumeChunk(g_sound_chicken_hit, MIX_MAX_VOLUME / 2);
+    //Mix_VolumeChunk(g_sound_chicken_die, MIX_MAX_VOLUME / 2);
+    Mix_VolumeChunk(g_sound_eat_chicken, MIX_MAX_VOLUME / 2);
 
     // Vòng lặp chính của game
 
@@ -474,7 +476,7 @@ int main(int argc, char* argv[]) {
                                 type_menu = 1;
                                 ResetGame();
                                 player_power.ResetHealth();
-                                ShowMenu(g_screen, text_font);
+                                ShowMenu();
                             }
                         }
                     }
@@ -490,7 +492,7 @@ int main(int argc, char* argv[]) {
             }
         }
         
-
+        
         // xử lí va chạm cho game
         std::vector<BulletObject*> bullet_arr = p_player.get_bullet_list();
         for (int r = 0; r < bullet_arr.size(); r++) {
@@ -551,7 +553,7 @@ int main(int argc, char* argv[]) {
                 if (MessageBox(NULL, L"WIN GAME", L"WIN GAME", MB_OK | MB_ICONINFORMATION) == IDOK) {
                     type_menu = 1;
                     player_power.ResetHealth();
-                    ShowMenu(g_screen, text_font);
+                    ShowMenu();
                     ResetGame();
                 }
                 check_boss_die = false;
@@ -638,7 +640,7 @@ int main(int argc, char* argv[]) {
                         while (boss->getSizeEgglist() > 0) {
                             boss->RemoveEgg(0);
                         }
-                        ShowMenu(g_screen, text_font);
+                        ShowMenu();
                     }
                 }
                
