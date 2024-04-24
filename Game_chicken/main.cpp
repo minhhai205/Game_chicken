@@ -295,7 +295,7 @@ int main(int argc, char* argv[]) {
     Timer fps_timer;
     //level = 3;
 
-     // Khởi tạo SDL và load ảnh nền
+     // Khởi tạo SDL và load ảnh nền1
     if (InitData() == false) {
         std::cout << "Initialization failed" << std::endl;
         return -1;
@@ -506,19 +506,20 @@ int main(int argc, char* argv[]) {
                         bool bCol = SDLCommonFunc::CheckCollision(bRect, tRect);
 
                         if (bCol) {
-                            point += 100;
-                            if (t % 5 == 0) {
-                                SetGift(tRect.x, tRect.y + 30, 4, "images/duiga.png");
+                            if (obj_chicken->get_kill() < 3) obj_chicken->set_kill(obj_chicken->get_kill() + 1);
+                            else {
+                                point += 100;
+                                if (t % 5 == 0) {
+                                    SetGift(tRect.x, tRect.y + 30, 4, "images/duiga.png");
+                                }
+                                else if (t == 3) {
+                                    SetGift(tRect.x, tRect.y + 30, 7, "images/gift1.png");
+                                }
+                                Mix_PlayChannel(-1, g_sound_chicken_hit, 0);
+                                obj_chicken->Free();
+                                chickens_list.erase(chickens_list.begin() + t);
                             }
-                            else if(t == 3) {
-                                SetGift(tRect.x, tRect.y + 30, 7, "images/gift1.png");
-                            }
-                            
-                            Mix_PlayChannel(-1, g_sound_chicken_hit, 0);
-
                             p_player.RemoveBullet(r);
-                            obj_chicken->Free();
-                            chickens_list.erase(chickens_list.begin() + t);
                         }
                     }
                 }

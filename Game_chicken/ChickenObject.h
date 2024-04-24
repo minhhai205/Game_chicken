@@ -23,6 +23,9 @@ public:
 	void HandelChickenMove(const int& x_boder, const int& y_boder);
 	void LoadImgChicken(SDL_Renderer* screen);
 	
+	void set_kill(int kill_) { kill = kill_; }
+	int get_kill(){return kill;}
+
 	SDL_Rect GetRectFrame();
 
 	void SetEgg(SDL_Renderer* screen, int type);
@@ -47,4 +50,5 @@ private:
 	float chicken_x_val_;
 	float chicken_y_val_;
 	bool chicken_move_;
+	int kill;
 };

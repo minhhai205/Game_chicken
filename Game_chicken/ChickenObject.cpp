@@ -7,6 +7,7 @@ ChickenObject::ChickenObject() {
 	chicken_height_ = 0;
 	chicken_move_ = false;
 	frame_ = 0;
+	kill = 0;
 }
 ChickenObject::~ChickenObject() {
 
