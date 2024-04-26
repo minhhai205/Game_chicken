@@ -1,5 +1,5 @@
 
-# GAME INT2215 50: Rocket Fighting cock( Chicken Invaders ) - Made by Nguyễn Minh Hải
+## GAME INT2215 50: Rocket Fighting cock( Chicken Invaders ) - Made by Nguyễn Minh Hải
 
 ## Author Information
     Họ tên: Nguyễn Minh Hải
@@ -39,7 +39,9 @@
 - Lớp Boss : Xử lí boss
 - Lớp Rocket : Xử lí tên lửa của người chơi chính
 - Lớp Gift : Tạo quà
+
 ......
+
 - Các hàm xử lí game chính như hàm menu, hàm main.
 ### Ưu điểm :
 - Biết cách vận dụng các kiến thức đã học như lập trình hướng đối tượng, tư duy lập trình vào dự án.
