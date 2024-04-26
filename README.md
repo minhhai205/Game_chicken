@@ -6,7 +6,7 @@
     Mã số sinh viên: 23020055
     K68 - CN1 - UET
 ## DEMOGAME:
-https://www.youtube.com/watch?v=CiIZZ0EHUhU&t=177s
+https://www.youtube.com/watch?v=KWA1ifbQM6Y
 ## IDEA:
 - Dựa trên game Chicken Invaders( Game bắn gà)
     (https://gamevui.vn/ban-ga-3/game)
