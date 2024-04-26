@@ -25,9 +25,9 @@ https://www.youtube.com/watch?v=KWA1ifbQM6Y
 - Cách này tiết kiệm bộ nhớ và thời gian tải đi rất nhiều .
 - Giải nén game vào một thư mục và bật Game_chicken.exe lên và chơi.
 ### b. Cách 2: Bao gồm cả code và có thể biên dịch:
-- Tải Visual studio có cài chương trình biên dịch C++.
+- Tải Visual studio có cài chương trình biên dịch C++ và máy có tải thư viện SDL2.
 - Clone repo này về và tải folder tại link (https://github.com/minhhai205/Game_chicken/releases/tag/File_game), giải nén rồi paste vào cùng chỗ với thư mục **Game_chicken**.
-- Mở Visual studio và chọn Open a project or solution, chọn solution **Game_chicken.sln** và chạy project.  
+- Mở Visual studio và chọn Open a project or solution, chọn solution **Game_chicken.sln**, liên kết với thư viện SDL2 và chạy project.  
 ## LOGIC GAME VÀ CÁCH CHƠI:
 ### Logic game:
 - Game gồm 3 màn, hai màn đầu là bắn gà đang bay trong đó màn 2 có số lượng gà nhiều gấp đôi màn 1 và độ khó tăng lên, màn 3 sẽ bắn với boss.
