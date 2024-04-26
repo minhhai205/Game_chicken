@@ -239,8 +239,8 @@ void MakeChickenList() {
             if (p_chicken != NULL) {
                 p_chicken->LoadImgChicken(g_screen);
                 p_chicken->set_clip();
-                p_chicken->SetRect(rand() % (SCREEN_WIDTH - 100), rand() % 80);
-
+                //p_chicken->SetRect(rand() % (SCREEN_WIDTH - 100), rand() % 80);
+                p_chicken->SetRect(rand() % (SCREEN_WIDTH - 100), -20);
                 p_chicken->SetEgg(g_screen, i);
 
                 p_chicken->set_chicken_x_val(1);
@@ -260,8 +260,8 @@ void MakeChickenList() {
             if (p_chicken != NULL) {
                 p_chicken->LoadImgChicken(g_screen);
                 p_chicken->set_clip();
-                p_chicken->SetRect(tmp1 + 75 * (i % 5), tmp);
-
+               // p_chicken->SetRect(tmp1 + 75 * (i % 5), tmp);
+                p_chicken->SetRect(tmp1 + 75 * (i % 5), -20);
                 p_chicken->SetEgg(g_screen, i);
 
                 p_chicken->set_chicken_x_val(1);
