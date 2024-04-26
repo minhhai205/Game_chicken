@@ -4,6 +4,9 @@
 ## AUTHOR INFORMATION:
     Họ tên: Nguyễn Minh Hải
     Mã số sinh viên: 23020055
+    K68 - CN1 - UET
+## DEMOGAME:
+https://www.youtube.com/watch?v=CiIZZ0EHUhU&t=177s
 ## IDEA:
 - Dựa trên game Chicken Invaders( Game bắn gà)
     (https://gamevui.vn/ban-ga-3/game)
@@ -54,6 +57,9 @@
 - Kinh nghiệm quản lí và phát triển một dự án.
 - Cách học và tiếp thu một kiến thức mới.
 - Rèn tính kiên trì, tìm tòi và cẩn thận.
-    
+## Contact:
+- Link github: https://github.com/minhhai205/Game_chicken
+- Mail: haiboss2005@gmail.com
+
     
 
